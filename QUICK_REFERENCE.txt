@@ -1,0 +1,304 @@
+# ⚡ QUICK REFERENCE: MANAGING QUALIZENZ WEBSITE
+
+## 🎯 5-MINUTE QUICK START
+
+### **FASTEST METHOD: HTML Edit**
+```
+1. Open: index.html (with notepad or VS Code)
+2. Find: <!-- BLOG SECTION -->
+3. Copy: An existing blog-card div
+4. Paste: Below existing articles
+5. Edit: title, description, date
+6. Save: Ctrl+S
+7. Refresh: Browser (F5)
+Done! ✅
+```
+
+---
+
+## 3 WAYS TO ADD ARTICLES
+
+### METHOD 1: HTML (2 min/article) ⭐ RECOMMENDED FOR BEGINNERS
+```
+STEPS:
+1. Open index.html in Notepad
+2. Search for "blog-card"
+3. Copy this structure:
+   <div class="blog-card">
+       <span class="blog-category">GMP</span>
+       <h3>Your Title</h3>
+       <p>Your summary</p>
+   </div>
+4. Paste 4 more times
+5. Save (Ctrl+S)
+6. Refresh browser (F5)
+TIME: 10 minutes for 5 articles
+```
+
+### METHOD 2: Python Script (1 min/10 articles) ⭐ BEST FOR BULK
+```
+STEPS:
+1. Terminal: pip install requests
+2. Terminal: python app.py (start server)
+3. Terminal: python quick_add_articles.py
+TIME: 30 seconds for 5 articles
+```
+
+### METHOD 3: API CURL (30 sec/article) ⭐ FOR AUTOMATION
+```
+STEPS:
+Terminal: curl -X POST http://localhost:5000/api/articles/add \
+  -H "Content-Type: application/json" \
+  -d '{"title":"...", "content":"...", "category":"GMP"}'
+TIME: 2 minutes for 5 articles
+```
+
+---
+
+## 📝 ARTICLE TEMPLATE
+
+Copy this structure for any article:
+```html
+<div class="blog-card">
+    <span class="blog-category">CATEGORY_HERE</span>
+    <h3>Your Article Title</h3>
+    <p>2-3 sentence summary of the article goes here.</p>
+    <div class="blog-meta">
+        <span>May 31, 2026</span>
+        <a href="#" class="read-article">Read Article →</a>
+    </div>
+</div>
+```
+
+**Categories:** GMP | Quality Assurance | Quality Control | Validation | Data Integrity | Production
+
+---
+
+## 💾 STORING ARTICLES
+
+### LOCAL (Browser Storage - No Backend Needed)
+```javascript
+// In browser console:
+// View articles
+JSON.parse(localStorage.getItem('articles'))
+
+// Add article
+let articles = JSON.parse(localStorage.getItem('articles')) || [];
+articles.push({title: "...", content: "...", category: "GMP"});
+localStorage.setItem('articles', JSON.stringify(articles));
+```
+
+### DATABASE (Python Backend - Persistent)
+```bash
+python app.py
+# Server at http://localhost:5000
+# Data stored in ./data/articles.json
+```
+
+---
+
+## 🎨 WHERE TO EDIT EACH PART
+
+| What to Edit | Where | How |
+|------|-------|-----|
+| Blog Articles | index.html (lines 181-230) | Copy-paste blog-card div |
+| Page Title | index.html line 6 | Change `<title>` tag |
+| Logo Text | index.html line 16 | Change span.logo-text |
+| Colors | styles.css (lines 8-15) | Edit CSS :root variables |
+| Navigation Links | index.html (lines 19-24) | Add new <li> with <a> |
+| Hero Text | index.html (lines 33-34) | Change <h1> and <p> |
+| Footer | index.html (lines 651-750) | Change footer content |
+
+---
+
+## 🚀 DAILY WORKFLOW (30-Day Sprint)
+
+### WEEK 1: Foundation (15 articles)
+- Day 1-2: Add 3 GMP articles
+- Day 3-4: Add 3 Validation articles
+- Day 5-7: Add 9 Data Integrity articles
+
+### WEEK 2: Content Push (15 articles)
+- Daily: 2-3 new articles
+- Mix categories
+- Focus on SEO keywords
+
+### WEEK 3: Monetization (10 articles)
+- Add premium template previews
+- Create lead magnet articles
+- Build email signup funnel
+
+### WEEK 4: Final Push (15 articles)
+- Reach 50+ total articles
+- Optimize top performing ones
+- Prepare for deployment
+
+---
+
+## 📊 TRACKING PROGRESS
+
+### View Dashboard (Browser Console)
+```javascript
+showDashboard()
+// Shows:
+// - Total subscribers
+// - Contact messages
+// - Downloads
+// - Page views
+```
+
+### Check Articles
+```bash
+curl http://localhost:5000/api/articles/list
+# Returns all articles in JSON format
+```
+
+---
+
+## 🔧 TROUBLESHOOTING
+
+| Problem | Solution |
+|---------|----------|
+| Can't open index.html | Use Firefox or Chrome (right-click → Open) |
+| Articles don't show | F5 to refresh, check HTML syntax |
+| Python server won't start | pip install flask flask-cors |
+| API returns 404 | Make sure python app.py is running |
+| localStorage data missing | Check browser dev tools → Application |
+
+---
+
+## 📱 ARTICLE CATEGORIES
+
+```
+GMP ................. FDA, WHO, EU, PIC/S guidance
+Quality Assurance ... CAPA, Deviations, Change Control  
+Quality Control ..... OOS, OOT, Method Validation
+Validation .......... IQ, OQ, PQ, Equipment
+Data Integrity ...... ALCOA+, 21 CFR 11
+Production .......... Batch Records, Training
+Sterile Manufacturing Cleanrooms, Annex 1
+Engineering ........ HVAC, Utilities, Compressed Air
+```
+
+---
+
+## ✍️ ARTICLE WRITING TIPS
+
+### Title Format
+```
+Good: "FDA GMP Requirements: Complete Guide 2026"
+Better: "FDA GMP Requirements: What Pharma Pros Need to Know"
+Best: "FDA GMP Compliance: 7 Requirements Every Pharma Company Must Implement"
+```
+
+### Summary Length
+- 2-3 sentences
+- 50-100 words
+- Include main keyword once
+
+### Example Summary
+```
+"The FDA Good Manufacturing Practices (GMP) set minimum standards for pharmaceutical 
+manufacturing. This guide covers the 7 core requirements, inspection focus areas, and 
+how to ensure compliance. Learn what inspectors look for and avoid costly violations."
+```
+
+---
+
+## 🎯 30-DAY CONTENT CALENDAR
+
+```
+Week 1: GMP Fundamentals (5 articles)
+Week 2: Data Integrity (8 articles)
+Week 3: Validation (12 articles)
+Week 4: Quality Systems (25 articles)
+Total: 50 articles by Day 30
+```
+
+---
+
+## 💻 COMMANDS QUICK REFERENCE
+
+```bash
+# Start local website
+start index.html
+
+# Start Python backend
+python app.py
+
+# Add sample articles
+python quick_add_articles.py
+
+# Check Python version
+python --version
+
+# Install packages
+pip install -r requirements.txt
+
+# View API status
+curl http://localhost:5000/api/status
+
+# View all articles
+curl http://localhost:5000/api/articles/list
+
+# Export data
+# Browser console: exportData()
+
+# View analytics
+# Browser console: showDashboard()
+```
+
+---
+
+## 🎓 LEARN MORE
+
+- **Full Guide**: HOW_TO_ADD_ARTICLES.md
+- **Visual Guide**: add_articles_guide.html (open in browser)
+- **Python Script**: quick_add_articles.py
+- **Setup Guide**: SETUP_GUIDE.md
+
+---
+
+## ✅ LAUNCH CHECKLIST
+
+- [ ] Added 50+ articles
+- [ ] All categories covered
+- [ ] Newsletter signup working
+- [ ] Contact form working
+- [ ] Mobile responsive
+- [ ] Google Analytics added
+- [ ] Domain ready (qualizenz.com)
+- [ ] Vercel account ready
+- [ ] GitHub repo ready
+- [ ] First 10 subscribers goal
+
+---
+
+## 🚀 DEPLOYMENT
+
+### To Vercel (1-click)
+```bash
+# 1. Push to GitHub
+git push origin main
+
+# 2. Connect to Vercel
+vercel
+
+# 3. Done! Live at https://qualizenz.vercel.app
+```
+
+### Custom Domain
+```bash
+# Point qualizenz.com to Vercel nameservers
+# Instructions at vercel.com/docs
+```
+
+---
+
+**Remember: Your MVP launches on Day 1. Optimize on Day 30.**
+
+**Current Date**: May 31, 2026  
+**Target**: 50 articles by June 30, 2026  
+**Goal**: 500+ visitors, 150+ email subscribers  
+
+**You've got this! 🚀**

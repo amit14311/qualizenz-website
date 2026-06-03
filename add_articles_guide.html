@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qualizenz - Add Articles Locally</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4F46E5;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .code-box {
+            background: #f8f8f8;
+            border-left: 4px solid #4F46E5;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            background: #4F46E5;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #7C3AED;
+        }
+        .success {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #10B981;
+        }
+        .warning {
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #F59E0B;
+        }
+        .info {
+            background: #EFF6FF;
+            color: #0C4A6E;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #4F46E5;
+        }
+        .preview {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .blog-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        .blog-category {
+            display: inline-block;
+            background: #4F46E5;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .blog-card h3 {
+            color: #333;
+            margin: 10px 0;
+        }
+        .blog-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+        .step-number {
+            display: inline-block;
+            background: #4F46E5;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 How to Add Articles to Qualizenz</h1>
+        <p class="subtitle">Three simple methods to manage your pharmaceutical knowledge content</p>
+
+        <!-- METHOD 1 -->
+        <div class="section">
+            <h2>METHOD 1️⃣: Edit HTML Directly (Easiest)</h2>
+            <p>No coding experience needed. Just copy-paste!</p>
+            
+            <div class="info">
+                <strong>✏️ STEPS:</strong>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Open <code>index.html</code> with any text editor</li>
+                    <li>Find the blog section (search for "BLOG SECTION")</li>
+                    <li>Copy an existing blog card</li>
+                    <li>Paste it and edit the title, description</li>
+                    <li>Save the file</li>
+                    <li>Refresh your browser</li>
+                </ol>
+            </div>
+
+            <h3>🔍 Where to Find the Blog Section:</h3>
+            <div class="code-box">
+&lt;!-- BLOG SECTION --&gt;
+&lt;section id="blog" class="blog-preview"&gt;
+    &lt;div class="container"&gt;
+        &lt;h2&gt;Latest From Our Blog&lt;/h2&gt;
+        &lt;div class="blog-grid"&gt;
+            &lt;!-- YOUR ARTICLES GO HERE --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+            </div>
+
+            <h3>📋 Template to Copy-Paste:</h3>
+            <div class="code-box">
+&lt;div class="blog-card"&gt;
+    &lt;span class="blog-category"&gt;GMP&lt;/span&gt;
+    &lt;h3&gt;Your Article Title Here&lt;/h3&gt;
+    &lt;p&gt;Your 2-3 sentence summary goes here...&lt;/p&gt;
+    &lt;div class="blog-meta"&gt;
+        &lt;span&gt;May 31, 2026&lt;/span&gt;
+        &lt;a href="#" class="read-article"&gt;Read Article →&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+
+            <h3>✨ Example - Your First Article:</h3>
+            <div class="preview">
+                <div class="blog-card">
+                    <span class="blog-category">GMP</span>
+                    <h3>FDA GMP Requirements: Complete Guide 2026</h3>
+                    <p>The FDA Good Manufacturing Practices are fundamental regulations all pharmaceutical manufacturers must follow. This comprehensive guide covers facility design, equipment maintenance, and compliance strategies.</p>
+                    <div class="blog-meta">
+                        <span>May 31, 2026</span>
+                        <a href="#" class="read-article">Read Article →</a>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>⏱️ Time: 2 minutes per article</strong></p>
+        </div>
+
+        <!-- METHOD 2 -->
+        <div class="section">
+            <h2>METHOD 2️⃣: Use Python Script (Best for Bulk)</h2>
+            <p>Add multiple articles automatically to your backend database</p>
+            
+            <div class="info">
+                <strong>⚙️ REQUIREMENTS:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Python installed</li>
+                    <li><code>pip install requests</code></li>
+                    <li><code>python app.py</code> running (backend server)</li>
+                </ul>
+            </div>
+
+            <h3>🔧 Setup Steps:</h3>
+            <div class="code-box">
+# Step 1: Install requests library
+pip install requests
+
+# Step 2: Create a file named add_articles.py
+# (Already created! Just use quick_add_articles.py)
+
+# Step 3: Start your backend server
+python app.py
+
+# Step 4: In another terminal, run:
+python quick_add_articles.py
+
+# Result: All 5 sample articles added! ✅
+            </div>
+
+            <h3>📝 Create Your Own Article Script:</h3>
+            <div class="code-box">
+import requests
+
+article = {
+    "title": "Your Article Title",
+    "content": "Full article content here...",
+    "category": "GMP",
+    "tags": ["tag1", "tag2"],
+    "author": "Your Name"
+}
+
+response = requests.post(
+    'http://localhost:5000/api/articles/add',
+    json=article
+)
+
+print(response.json())
+            </div>
+
+            <p><strong>⏱️ Time: 1 minute for 10 articles</strong></p>
+        </div>
+
+        <!-- METHOD 3 -->
+        <div class="section">
+            <h2>METHOD 3️⃣: Use API with CURL (Terminal)</h2>
+            <p>Add articles directly from your terminal/command line</p>
+            
+            <h3>💻 Single Article:</h3>
+            <div class="code-box">
+curl -X POST http://localhost:5000/api/articles/add \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "My Article Title",
+    "content": "Article content...",
+    "category": "Validation",
+    "tags": ["validation", "qualification"]
+  }'
+            </div>
+
+            <h3>📋 View All Articles:</h3>
+            <div class="code-box">
+curl http://localhost:5000/api/articles/list
+            </div>
+
+            <p><strong>⏱️ Time: 30 seconds per article</strong></p>
+        </div>
+
+        <!-- COMPARISON -->
+        <div class="section">
+            <h2>📊 Method Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Difficulty</th>
+                        <th>Speed</th>
+                        <th>Best For</th>
+                        <th>Setup Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTML Direct Edit</td>
+                        <td>⭐ Easy</td>
+                        <td>⭐⭐⭐ Medium</td>
+                        <td>Quick updates</td>
+                        <td>0 min</td>
+                    </tr>
+                    <tr>
+                        <td>Python Script</td>
+                        <td>⭐⭐ Medium</td>
+                        <td>⭐⭐⭐⭐⭐ Fast</td>
+                        <td>Bulk import</td>
+                        <td>5 min</td>
+                    </tr>
+                    <tr>
+                        <td>API CURL</td>
+                        <td>⭐⭐⭐ Hard</td>
+                        <td>⭐⭐⭐⭐ Fast</td>
+                        <td>Automation</td>
+                        <td>2 min</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ARTICLE CATEGORIES -->
+        <div class="section">
+            <h2>📚 Article Categories</h2>
+            <p>Choose the right category for your article:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #4F46E5;">
+                    <strong>GMP</strong><br>
+                    FDA, WHO, EU, PIC/S guidance
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #7C3AED;">
+                    <strong>Quality Assurance</strong><br>
+                    CAPA, Deviations, Change Control
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #EC4899;">
+                    <strong>Quality Control</strong><br>
+                    OOS, OOT, Testing, Validation
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #F59E0B;">
+                    <strong>Validation</strong><br>
+                    IQ, OQ, PQ, Equipment, CSV
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #10B981;">
+                    <strong>Data Integrity</strong><br>
+                    ALCOA+, 21 CFR 11, Records
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; border-left: 4px solid #06B6D4;">
+                    <strong>Production</strong><br>
+                    Batch Records, SOPs, Training
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK ADD FORM -->
+        <div class="section">
+            <h2>🚀 Try It Now - Add Your First Article</h2>
+            <div class="warning">
+                <strong>⚠️ NOTE:</strong> This form adds to localStorage (local storage only). For database storage, use Python method.
+            </div>
+            
+            <form id="articleForm" onsubmit="addArticle(event)">
+                <div class="form-group">
+                    <label for="title">Article Title *</label>
+                    <input type="text" id="title" placeholder="e.g., FDA GMP Requirements" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Article Summary *</label>
+                    <textarea id="content" placeholder="2-3 sentence summary of your article..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category *</label>
+                    <select id="category" required>
+                        <option value="">-- Select Category --</option>
+                        <option value="GMP">GMP</option>
+                        <option value="Quality Assurance">Quality Assurance</option>
+                        <option value="Quality Control">Quality Control</option>
+                        <option value="Validation">Validation</option>
+                        <option value="Data Integrity">Data Integrity</option>
+                        <option value="Production">Production</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tags">Tags (comma-separated)</label>
+                    <input type="text" id="tags" placeholder="e.g., FDA, compliance, quality">
+                </div>
+
+                <button type="submit">➕ Add Article to Local Storage</button>
+                <button type="button" onclick="viewArticles()">👁️ View All Articles</button>
+            </form>
+
+            <div id="result"></div>
+        </div>
+
+        <!-- NEXT STEPS -->
+        <div class="section">
+            <h2>✅ Next Steps</h2>
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 5px;">
+                <ol style="margin-left: 20px;">
+                    <li><strong>Choose Method:</strong> Pick the easiest method for you (HTML is quickest to start)</li>
+                    <li><strong>Add 5 Articles:</strong> Start with 5 core articles about GMP/validation</li>
+                    <li><strong>Test Locally:</strong> Open index.html and verify articles appear</li>
+                    <li><strong>Add More:</strong> Scale to 20+ articles</li>
+                    <li><strong>Deploy:</strong> Push to Vercel when ready</li>
+                    <li><strong>Promote:</strong> Share on LinkedIn, Twitter, forums</li>
+                    <li><strong>Track:</strong> Monitor views and engagement in console: <code>showDashboard()</code></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addArticle(event) {
+            event.preventDefault();
+            
+            const article = {
+                title: document.getElementById('title').value,
+                content: document.getElementById('content').value,
+                category: document.getElementById('category').value,
+                tags: document.getElementById('tags').value.split(',').map(t => t.trim()),
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            let articles = JSON.parse(localStorage.getItem('articles')) || [];
+            articles.push(article);
+            localStorage.setItem('articles', JSON.stringify(articles));
+            
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <div class="success">
+                    ✅ Article added successfully!<br>
+                    <strong>${article.title}</strong> is now in your local storage.
+                </div>
+            `;
+            
+            document.getElementById('articleForm').reset();
+        }
+
+        function viewArticles() {
+            const articles = JSON.parse(localStorage.getItem('articles')) || [];
+            const result = document.getElementById('result');
+            
+            if (articles.length === 0) {
+                result.innerHTML = '<div class="warning">No articles saved yet</div>';
+                return;
+            }
+            
+            let html = '<div class="success"><strong>📝 Saved Articles:</strong><br>';
+            articles.forEach((art, idx) => {
+                html += `${idx + 1}. <strong>${art.title}</strong> (${art.category})<br>`;
+            });
+            html += `</div>`;
+            
+            result.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
