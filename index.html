@@ -3,446 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qualizenz - GMP Articles and Downloadable Pharma Resources</title>
-    <meta name="description" content="Qualizenz shares simple pharmaceutical GMP articles, downloadable guides, checklists and practical quality resources for QA, QC, validation and manufacturing teams.">
+    <title>Qualizenz | GMP Articles, SOP Templates, Validation Templates and Pharma Consulting</title>
+    <meta name="description" content="Qualizenz is a pharmaceutical GMP knowledge and resource platform for GMP articles, SOP templates, validation templates, audit readiness checklists, free resources, newsletter updates and consulting support.">
+    <meta name="keywords" content="GMP SOP templates, pharmaceutical validation templates, audit readiness checklist, data integrity in pharma, sterile manufacturing GMP, HVAC qualification pharma, water system qualification, pharmaceutical QA documentation">
+    <meta name="author" content="Qualizenz">
+    <meta property="og:title" content="Qualizenz - Quality Compliance Validation Excellence">
+    <meta property="og:description" content="Professional pharmaceutical GMP articles, templates, downloadable resources and consulting support.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.qualizenz.com/qualizenz-logo.png">
+    <link rel="canonical" href="https://www.qualizenz.com/">
+    <link rel="icon" href="qualizenz-logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="container">
-            <div class="logo">
-                <span class="logo-icon">Q</span>
-                <span class="logo-text">Qualizenz</span>
-            </div>
+            <a class="logo" href="#home" aria-label="Qualizenz home">
+                <img class="brand-logo" src="qualizenz-logo.png" alt="Qualizenz Pharmaceutical GMP Platform logo">
+                <span>
+                    <span class="logo-text">Qualizenz</span>
+                    <span class="tagline">Quality • Compliance • Validation • Excellence</span>
+                </span>
+            </a>
+            <button class="mobile-menu-btn" type="button" onclick="toggleMobileMenu()" aria-label="Toggle navigation">Menu</button>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#blog">Articles</a></li>
-                <li><a href="#downloads">Downloads</a></li>
-                <li><a href="#resources">Topics</a></li>
-                <li><a href="#newsletter">Newsletter</a></li>
-                <li><a href="#contact">Suggest Topic</a></li>
+                <li><a href="#articles">GMP Articles</a></li>
+                <li><a href="#sop-templates">SOP Templates</a></li>
+                <li><a href="#validation-templates">Validation</a></li>
+                <li><a href="#resources">Free Resources</a></li>
+                <li><a href="#consulting">Consulting</a></li>
+                <li><a href="admin_dashboard.html">Admin</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <p class="eyebrow">Practical GMP knowledge</p>
-                <h1>Simple pharma GMP articles you can read, save and share.</h1>
-                <p>Qualizenz is a focused knowledge hub for pharmaceutical quality professionals. Start with short articles, downloadable article guides, checklists and practical explanations for GMP, QA, QC, validation and manufacturing topics.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollTo('blog')">Read Articles</button>
-                    <button class="btn btn-secondary" onclick="scrollTo('downloads')">Download Guides</button>
+    <main>
+        <section id="home" class="hero platform-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="eyebrow">Pharmaceutical GMP knowledge platform</p>
+                    <h1>GMP articles, templates, validation tools and consulting support for pharma professionals.</h1>
+                    <p>Qualizenz helps QA, QC, production, engineering, validation, audit, training and startup teams learn faster, prepare better documents and find practical GMP resources in one clean platform.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollTo('resources')">Download Free Checklist</button>
+                        <button class="btn btn-secondary" onclick="scrollTo('sop-templates')">View SOP Templates</button>
+                        <button class="btn btn-secondary" onclick="scrollTo('consulting')">Request Consulting Support</button>
+                    </div>
                 </div>
-            </div>
-            <div class="hero-image">
-                <div class="hero-card">
-                    <h3>Content Focus</h3>
-                    <div class="hero-number">Read + Download</div>
-                    <p>Clear educational material for everyday GMP learning and reference.</p>
+                <aside class="hero-card quick-search-card" aria-label="Search Qualizenz resources">
+                    <img class="hero-logo" src="qualizenz-logo.png" alt="Qualizenz logo">
+                    <h3>Find GMP Resources</h3>
+                    <p>Search articles, SOP templates, validation templates and free downloads.</p>
+                    <input id="siteSearch" class="site-search" type="search" placeholder="Search GMP, CAPA, HVAC, WFI...">
+                    <div class="hero-number">30+ Topics</div>
                     <ul>
-                        <li>Short GMP articles</li>
-                        <li>Downloadable article PDFs</li>
-                        <li>Quality checklists</li>
-                        <li>Validation explainers</li>
-                        <li>Weekly learning notes</li>
+                        <li>QA, QC and GMP documentation</li>
+                        <li>Validation and qualification protocols</li>
+                        <li>Sterile manufacturing and utilities</li>
+                        <li>Greenfield project startup support</li>
                     </ul>
+                </aside>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Quick access</p>
+                    <h2>Qualizenz Resource Dashboard</h2>
+                    <p class="section-subtitle">Use these cards to move quickly into articles, templates, downloads, consulting and newsletter signup.</p>
+                </div>
+                <div class="dashboard-grid">
+                    <a class="dashboard-card" href="#draft-sop"><span>01</span><h3>Draft SOP</h3><p>Use SOP writing guidance and downloadable structure notes.</p></a>
+                    <a class="dashboard-card" href="#sop-templates"><span>02</span><h3>SOP Templates</h3><p>QA, QC, production, warehouse and training SOP resources.</p></a>
+                    <a class="dashboard-card" href="#validation-templates"><span>03</span><h3>Validation Templates</h3><p>URS, DQ, IQ, OQ, PQ, VMP and utility protocols.</p></a>
+                    <a class="dashboard-card" href="#articles"><span>04</span><h3>GMP Articles</h3><p>Readable guidance on core GMP and compliance topics.</p></a>
+                    <a class="dashboard-card" href="#published-articles"><span>05</span><h3>Published Articles</h3><p>Browse featured and most viewed article summaries.</p></a>
+                    <a class="dashboard-card" href="#blog"><span>06</span><h3>Blog</h3><p>Updates, explainers and practical pharma quality notes.</p></a>
+                    <a class="dashboard-card" href="#resources"><span>07</span><h3>Free Resources</h3><p>Checklists, guides and free downloadable tools.</p></a>
+                    <a class="dashboard-card" href="#audit-readiness"><span>08</span><h3>Audit Readiness</h3><p>Prepare documents, evidence and teams for inspection.</p></a>
+                    <a class="dashboard-card" href="#training"><span>09</span><h3>Training Materials</h3><p>Learning notes and training matrix resources.</p></a>
+                    <a class="dashboard-card" href="#consulting"><span>10</span><h3>Consulting Services</h3><p>SOP review, validation review and QMS support.</p></a>
+                    <a class="dashboard-card" href="#contact"><span>11</span><h3>Contact Information</h3><p>Email, WhatsApp, social links and business inquiry form.</p></a>
+                    <a class="dashboard-card" href="#newsletter"><span>12</span><h3>Newsletter Signup</h3><p>Get new articles, free resources and premium releases.</p></a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FEATURES -->
-    <section class="features">
-        <div class="container">
-            <h2>What Qualizenz Provides</h2>
-            <p class="section-subtitle">A simple place to learn, review and download practical pharmaceutical quality content.</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">01</div>
-                    <h3>Simple Articles</h3>
-                    <p>Short, readable explanations of GMP concepts, quality systems, manufacturing controls and validation basics.</p>
-                    <span class="priority must">Core</span>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">02</div>
-                    <h3>Downloadable Articles</h3>
-                    <p>Save selected articles as downloadable guides so they can be used later during training, review or discussion.</p>
-                    <span class="priority must">Core</span>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">03</div>
-                    <h3>Checklists</h3>
-                    <p>Practical checklists for audit readiness, documentation review, validation readiness and routine GMP awareness.</p>
-                    <span class="priority must">Core</span>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">04</div>
-                    <h3>Topic Library</h3>
-                    <p>Organized topic areas covering GMP, QA, QC, sterile manufacturing, utilities and validation.</p>
-                    <span class="priority should">Growing</span>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">05</div>
-                    <h3>Newsletter</h3>
-                    <p>Occasional updates when new articles, downloadable notes or practical resources are added.</p>
-                    <span class="priority should">Optional</span>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">06</div>
-                    <h3>Reader Requests</h3>
-                    <p>Readers can suggest topics they want explained in plain language for future articles.</p>
-                    <span class="priority should">Open</span>
+        <section id="categories" class="knowledge-hub">
+            <div class="container">
+                <h2>Pharmaceutical Content Categories</h2>
+                <p class="section-subtitle">Coverage for daily GMP work, documentation, validation, utilities and pharma project teams.</p>
+                <div class="category-cloud">
+                    <button data-filter="GMP">GMP</button>
+                    <button data-filter="Quality Assurance">Quality Assurance</button>
+                    <button data-filter="Quality Control">Quality Control</button>
+                    <button data-filter="Data Integrity">Data Integrity</button>
+                    <button data-filter="Documentation">Documentation and GDP</button>
+                    <button data-filter="SOP">SOP Management</button>
+                    <button data-filter="CAPA">CAPA</button>
+                    <button data-filter="Deviation">Deviation</button>
+                    <button data-filter="Change Control">Change Control</button>
+                    <button data-filter="Risk">Risk Management</button>
+                    <button data-filter="Validation">Validation</button>
+                    <button data-filter="Qualification">Qualification</button>
+                    <button data-filter="Cleaning Validation">Cleaning Validation</button>
+                    <button data-filter="Process Validation">Process Validation</button>
+                    <button data-filter="CSV">Computer System Validation</button>
+                    <button data-filter="Sterile">Sterile Manufacturing</button>
+                    <button data-filter="BFS">BFS Technology</button>
+                    <button data-filter="Terminal Sterilization">Terminal Sterilization</button>
+                    <button data-filter="Environmental Monitoring">Environmental Monitoring</button>
+                    <button data-filter="HVAC">HVAC</button>
+                    <button data-filter="Purified Water">Purified Water</button>
+                    <button data-filter="WFI">WFI</button>
+                    <button data-filter="Pure Steam">Pure Steam</button>
+                    <button data-filter="Compressed Air">Compressed Air</button>
+                    <button data-filter="Nitrogen">Nitrogen System</button>
+                    <button data-filter="Warehouse">Warehouse</button>
+                    <button data-filter="Vendor">Vendor Qualification</button>
+                    <button data-filter="Audit">Audit Readiness</button>
+                    <button data-filter="Regulatory">Regulatory Guidance</button>
+                    <button data-filter="Greenfield">Pharmaceutical Greenfield Projects</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- KNOWLEDGE HUB PREVIEW -->
-    <section id="resources" class="knowledge-hub">
-        <div class="container">
-            <h2>Knowledge Areas</h2>
-            <p class="section-subtitle">Browse practical GMP topics and use the downloadable resources for offline reference.</p>
-            <div class="knowledge-grid">
-                <div class="knowledge-item">
-                    <h4>GMP</h4>
-                    <p>WHO GMP, EU GMP, FDA guidance, PIC/S and ICH topics explained in accessible language.</p>
-                    <a href="#blog" class="read-more">Read Articles -></a>
-                </div>
-                <div class="knowledge-item">
-                    <h4>Quality Assurance</h4>
-                    <p>Deviation, CAPA, change control, risk management and documentation practices.</p>
-                    <a href="#downloads" class="read-more">Download QA Guides -></a>
-                </div>
-                <div class="knowledge-item">
-                    <h4>Quality Control</h4>
-                    <p>OOS, OOT, laboratory controls and analytical method validation basics.</p>
-                    <a href="#blog" class="read-more">Explore QC Topics -></a>
-                </div>
-                <div class="knowledge-item">
-                    <h4>Sterile Manufacturing</h4>
-                    <p>Cleanroom operations, environmental monitoring and Annex 1 readiness notes.</p>
-                    <a href="#newsletter" class="read-more">Get Updates -></a>
-                </div>
-                <div class="knowledge-item">
-                    <h4>Utilities</h4>
-                    <p>HVAC, PW, WFI, pure steam and compressed air qualification fundamentals.</p>
-                    <a href="#downloads" class="read-more">Download Notes -></a>
-                </div>
-                <div class="knowledge-item">
-                    <h4>Validation</h4>
-                    <p>Equipment qualification, process validation, cleaning validation and CSV concepts.</p>
-                    <a href="#blog" class="read-more">Read Validation Articles -></a>
+        <section id="articles" class="blog-preview">
+            <div class="container">
+                <h2>GMP Articles</h2>
+                <p class="section-subtitle">SEO-focused articles built for pharmaceutical professionals, students, auditors and consultants.</p>
+                <div class="blog-grid searchable-content">
+                    <article class="blog-card" data-search="GMP SOP templates pharmaceutical QA documentation SOP management">
+                        <div class="article-image image-blue">GMP</div>
+                        <div class="blog-category">Documentation and GDP</div>
+                        <h3>How to Write a GMP SOP</h3>
+                        <p>A practical guide to SOP structure, responsibilities, approval, training, version control and document lifecycle expectations.</p>
+                        <div class="blog-meta"><span>Qualizenz Team • 2026</span><a href="#sop-templates" class="read-article">View SOP Templates -></a></div>
+                    </article>
+                    <article class="blog-card" data-search="data integrity in pharma ALCOA+ records audit trail">
+                        <div class="article-image image-silver">DI</div>
+                        <div class="blog-category">Data Integrity</div>
+                        <h3>Data Integrity in Pharma: ALCOA+ Basics</h3>
+                        <p>Understand attributable, legible, contemporaneous, original, accurate and complete record expectations in GMP environments.</p>
+                        <div class="blog-meta"><span>Most viewed</span><a href="#resources" class="read-article">Download Checklist -></a></div>
+                    </article>
+                    <article class="blog-card" data-search="pharmaceutical validation templates IQ OQ PQ qualification validation">
+                        <div class="article-image image-blue">VAL</div>
+                        <div class="blog-category">Validation</div>
+                        <h3>IQ, OQ and PQ Explained</h3>
+                        <p>Simple explanation of qualification stages, acceptance criteria, test execution, deviations and final report expectations.</p>
+                        <div class="blog-meta"><span>Popular</span><a href="#validation-templates" class="read-article">View Validation Templates -></a></div>
+                    </article>
+                    <article class="blog-card" data-search="audit readiness checklist GMP inspection FDA WHO EU">
+                        <div class="article-image image-grey">AUD</div>
+                        <div class="blog-category">Audit Readiness</div>
+                        <h3>GMP Audit Readiness Checklist</h3>
+                        <p>Prepare document lists, training records, validation evidence, CAPA history and facility walkthrough readiness.</p>
+                        <div class="blog-meta"><span>Free resource</span><a href="#audit-readiness" class="read-article">Open Audit Section -></a></div>
+                    </article>
+                    <article class="blog-card" data-search="sterile manufacturing GMP Annex 1 environmental monitoring terminal sterilization BFS">
+                        <div class="article-image image-silver">STM</div>
+                        <div class="blog-category">Sterile Manufacturing</div>
+                        <h3>Sterile Manufacturing GMP: Core Controls</h3>
+                        <p>Overview of cleanroom behavior, contamination control strategy, environmental monitoring and sterile process documentation.</p>
+                        <div class="blog-meta"><span>Featured</span><a href="#newsletter" class="read-article">Subscribe for Updates -></a></div>
+                    </article>
+                    <article class="blog-card" data-search="HVAC qualification pharma water system qualification WFI pure steam compressed air nitrogen">
+                        <div class="article-image image-blue">UTL</div>
+                        <div class="blog-category">Utilities</div>
+                        <h3>Utility Qualification in Pharma</h3>
+                        <p>Key considerations for HVAC, purified water, WFI, pure steam, compressed air and nitrogen qualification packages.</p>
+                        <div class="blog-meta"><span>Engineering</span><a href="#validation-templates" class="read-article">View Utility Protocols -></a></div>
+                    </article>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- BLOG PREVIEW -->
-    <section id="blog" class="blog-preview">
-        <div class="container">
-            <h2>Latest Article Topics</h2>
-            <p class="section-subtitle">Start with short, practical explanations that readers can understand quickly.</p>
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <div class="blog-category">GMP Basics</div>
-                    <h3>How to Write a GMP SOP</h3>
-                    <p>A simple explanation of SOP purpose, structure, responsibilities, version control and approval flow.</p>
-                    <div class="blog-meta">
-                        <span class="read-time">Simple article</span>
-                        <a href="#downloads" class="read-article">Download Guide -></a>
+        <section id="sop-templates" class="templates product-section">
+            <div class="container">
+                <h2>SOP Templates Marketplace</h2>
+                <p class="section-subtitle">Editable SOP resources for QA, QC, production, engineering, warehouse, microbiology, EHS and HR/training teams.</p>
+                <div class="template-filters">
+                    <button class="filter-btn active" onclick="filterResources('sop', 'all', event)">All</button>
+                    <button class="filter-btn" onclick="filterResources('sop', 'qa', event)">QA</button>
+                    <button class="filter-btn" onclick="filterResources('sop', 'qc', event)">QC</button>
+                    <button class="filter-btn" onclick="filterResources('sop', 'production', event)">Production</button>
+                    <button class="filter-btn" onclick="filterResources('sop', 'engineering', event)">Engineering</button>
+                    <button class="filter-btn" onclick="filterResources('sop', 'warehouse', event)">Warehouse</button>
+                </div>
+                <div class="templates-grid searchable-content">
+                    <div class="template-card resource-card" data-group="sop" data-type="qa" data-search="QA SOP Templates deviation CAPA change control paid docx">
+                        <div class="template-badge premium">Paid</div>
+                        <h4>QA SOP Bundle</h4>
+                        <p>Deviation, CAPA, change control, document control and risk management SOP templates.</p>
+                        <div class="product-meta"><span>Category: QA SOP Templates</span><span>DOCX/PDF</span><strong>$49</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('QA SOP Bundle')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('qa-sop-bundle')">Buy / Download</button></div>
                     </div>
-                </article>
-                <article class="blog-card">
-                    <div class="blog-category">Validation</div>
-                    <h3>IQ, OQ and PQ Explained</h3>
-                    <p>A practical overview of equipment qualification stages and what each stage is expected to prove.</p>
-                    <div class="blog-meta">
-                        <span class="read-time">Simple article</span>
-                        <a href="#downloads" class="read-article">Download Notes -></a>
+                    <div class="template-card resource-card" data-group="sop" data-type="qc" data-search="QC SOP Templates OOS OOT laboratory paid docx">
+                        <div class="template-badge premium">Paid</div>
+                        <h4>QC Laboratory SOP Pack</h4>
+                        <p>OOS, OOT, reagent management, sample handling and laboratory record review SOPs.</p>
+                        <div class="product-meta"><span>Category: QC SOP Templates</span><span>DOCX</span><strong>$39</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('QC Laboratory SOP Pack')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('qc-lab-sop-pack')">Buy / Download</button></div>
                     </div>
-                </article>
-                <article class="blog-card">
-                    <div class="blog-category">QA Systems</div>
-                    <h3>CAPA Process in Pharma</h3>
-                    <p>A plain-language guide to correction, root cause analysis, corrective action, preventive action and effectiveness checks.</p>
-                    <div class="blog-meta">
-                        <span class="read-time">Simple article</span>
-                        <a href="#contact" class="read-article">Suggest Related Topic -></a>
+                    <div class="template-card resource-card" data-group="sop" data-type="production" data-search="Production SOP Templates batch manufacturing cleaning line clearance">
+                        <div class="template-badge premium">Paid</div>
+                        <h4>Production SOP Pack</h4>
+                        <p>Batch manufacturing, line clearance, area cleaning, equipment use and in-process control SOPs.</p>
+                        <div class="product-meta"><span>Category: Production SOP Templates</span><span>DOCX</span><strong>$39</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Production SOP Pack')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('production-sop-pack')">Buy / Download</button></div>
                     </div>
-                </article>
+                    <div class="template-card resource-card" data-group="sop" data-type="engineering" data-search="Engineering SOP Templates maintenance calibration utilities HVAC">
+                        <div class="template-badge premium">Paid</div>
+                        <h4>Engineering SOP Pack</h4>
+                        <p>Preventive maintenance, calibration, utility monitoring and equipment breakdown response SOPs.</p>
+                        <div class="product-meta"><span>Category: Engineering SOP Templates</span><span>DOCX</span><strong>$39</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Engineering SOP Pack')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('engineering-sop-pack')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="sop" data-type="warehouse" data-search="Warehouse SOP Templates receipt storage dispatch FEFO vendor">
+                        <div class="template-badge free">Free</div>
+                        <h4>Warehouse Receipt SOP</h4>
+                        <p>Starter SOP for material receipt, quarantine, status labeling and storage checks.</p>
+                        <div class="product-meta"><span>Category: Warehouse SOP Templates</span><span>DOCX</span><strong>Free</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Warehouse Receipt SOP')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('warehouse-receipt-sop')">Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="sop" data-type="training" data-search="Microbiology EHS HR Training SOP Templates training matrix">
+                        <div class="template-badge premium">Paid</div>
+                        <h4>Training and EHS SOP Set</h4>
+                        <p>Training matrix, GMP induction, EHS awareness and microbiology gowning support SOPs.</p>
+                        <div class="product-meta"><span>Category: HR/Training SOP Templates</span><span>XLSX/DOCX</span><strong>$29</strong></div>
+                        <div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Training and EHS SOP Set')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('training-ehs-sop-set')">Buy / Download</button></div>
+                    </div>
+                </div>
+                <p class="product-disclaimer">Qualizenz provides educational resources, templates, and consulting support. All templates and guidance must be reviewed, customized, approved, and controlled by qualified personnel before use in any GMP-regulated environment.</p>
             </div>
-            <div class="center">
-                <button class="btn btn-secondary" onclick="scrollTo('newsletter')">Subscribe for New Articles</button>
+        </section>
+
+        <section id="validation-templates" class="templates validation-band">
+            <div class="container">
+                <h2>Validation Templates</h2>
+                <p class="section-subtitle">Protocol templates and qualification documents for validation engineers, engineering teams and greenfield projects.</p>
+                <div class="templates-grid searchable-content">
+                    <div class="template-card resource-card" data-group="validation" data-type="core" data-search="URS Template user requirement specification validation">
+                        <div class="template-badge premium">Paid</div><h4>URS Template</h4><p>User requirement specification template for systems, equipment and utilities.</p><div class="product-meta"><span>DOCX</span><strong>$19</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('URS Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('urs-template')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="core" data-search="DQ Template design qualification">
+                        <div class="template-badge premium">Paid</div><h4>DQ Template</h4><p>Design qualification structure with requirement traceability and review sections.</p><div class="product-meta"><span>DOCX</span><strong>$19</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('DQ Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('dq-template')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="core" data-search="IQ Template installation qualification">
+                        <div class="template-badge premium">Paid</div><h4>IQ Template</h4><p>Installation qualification protocol with equipment, drawing, instrument and utility checks.</p><div class="product-meta"><span>DOCX</span><strong>$29</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('IQ Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('iq-template')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="core" data-search="OQ Template operational qualification">
+                        <div class="template-badge premium">Paid</div><h4>OQ Template</h4><p>Operational qualification protocol format for challenge tests, alarms and operating ranges.</p><div class="product-meta"><span>DOCX</span><strong>$29</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('OQ Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('oq-template')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="core" data-search="PQ Template performance qualification">
+                        <div class="template-badge premium">Paid</div><h4>PQ Template</h4><p>Performance qualification template for process, equipment and utility performance evidence.</p><div class="product-meta"><span>DOCX</span><strong>$29</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('PQ Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('pq-template')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="bundle" data-search="Validation Master Plan VMP protocol bundle">
+                        <div class="template-badge bundle">Bundle</div><h4>Validation Master Plan</h4><p>VMP template for validation strategy, responsibilities, systems and lifecycle planning.</p><div class="product-meta"><span>DOCX</span><strong>$49</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Validation Master Plan')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('validation-master-plan')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="utilities" data-search="HVAC Qualification Protocol pharma">
+                        <div class="template-badge premium">Paid</div><h4>HVAC Qualification Protocol</h4><p>Protocol framework for HVAC qualification, room conditions, airflow and pressure cascade checks.</p><div class="product-meta"><span>DOCX</span><strong>$49</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('HVAC Qualification Protocol')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('hvac-qualification')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="utilities" data-search="Water System Qualification Protocol purified water WFI">
+                        <div class="template-badge premium">Paid</div><h4>Water System Qualification Protocol</h4><p>Qualification structure for PW and WFI generation, storage, distribution and sampling.</p><div class="product-meta"><span>DOCX</span><strong>$59</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Water System Qualification Protocol')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('water-system-qualification')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="utilities" data-search="Compressed Air Qualification Protocol nitrogen pure steam">
+                        <div class="template-badge premium">Paid</div><h4>Compressed Air Qualification Protocol</h4><p>Template for compressed air quality, pressure, dew point, oil, particulates and microbial checks.</p><div class="product-meta"><span>DOCX</span><strong>$39</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Compressed Air Qualification Protocol')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('compressed-air-qualification')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="utilities" data-search="Nitrogen Qualification Protocol">
+                        <div class="template-badge premium">Paid</div><h4>Nitrogen Qualification Protocol</h4><p>Qualification protocol structure for nitrogen generation, distribution and point-of-use controls.</p><div class="product-meta"><span>DOCX</span><strong>$39</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Nitrogen Qualification Protocol')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('nitrogen-qualification')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="process" data-search="Cleaning Validation Protocol Process Validation Protocol CSV">
+                        <div class="template-badge bundle">Bundle</div><h4>Cleaning and Process Validation Bundle</h4><p>Cleaning validation, process validation and report templates for validation lifecycle support.</p><div class="product-meta"><span>DOCX/XLSX</span><strong>$99</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Cleaning and Process Validation Bundle')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('cleaning-process-validation-bundle')">Buy / Download</button></div>
+                    </div>
+                    <div class="template-card resource-card" data-group="validation" data-type="csv" data-search="Computer System Validation Template CSV">
+                        <div class="template-badge premium">Paid</div><h4>Computer System Validation Template</h4><p>CSV documentation structure for requirements, risk, testing, traceability and release readiness.</p><div class="product-meta"><span>DOCX/XLSX</span><strong>$69</strong></div><div class="card-actions"><button class="btn btn-secondary btn-small" onclick="previewResource('Computer System Validation Template')">Preview</button><button class="btn btn-primary btn-small" onclick="downloadTemplate('csv-template')">Buy / Download</button></div>
+                    </div>
+                </div>
+                <p class="product-disclaimer">Qualizenz provides educational resources, templates, and consulting support. All templates and guidance must be reviewed, customized, approved, and controlled by qualified personnel before use in any GMP-regulated environment.</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- DOWNLOADABLE ARTICLES -->
-    <section id="downloads" class="templates">
-        <div class="container">
-            <h2>Downloadable Articles and Guides</h2>
-            <p class="section-subtitle">Free downloadable learning resources for offline reading, training support and personal reference.</p>
-            
-            <div class="template-filters">
-                <button class="filter-btn active" onclick="filterTemplates('all', event)">All</button>
-                <button class="filter-btn" onclick="filterTemplates('article', event)">Articles</button>
-                <button class="filter-btn" onclick="filterTemplates('checklist', event)">Checklists</button>
-            </div>
-
-            <div class="templates-grid">
-                <div class="template-card" data-type="checklist">
-                    <div class="template-badge">PDF</div>
-                    <h4>GMP Starter Checklist</h4>
-                    <p>A simple checklist for reviewing basic GMP expectations, documentation habits and quality awareness.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Checklist</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('gmp-starter-checklist')">Download</button>
-                    </div>
-                </div>
-
-                <div class="template-card" data-type="article">
-                    <div class="template-badge">PDF</div>
-                    <h4>How to Write a GMP SOP</h4>
-                    <p>A downloadable article covering SOP structure, writing style, review steps and common mistakes.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Article guide</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('sop-writing-guide')">Download</button>
-                    </div>
-                </div>
-
-                <div class="template-card" data-type="article">
-                    <div class="template-badge">PDF</div>
-                    <h4>Deviation and CAPA Basics</h4>
-                    <p>A simple article explaining how deviations connect to investigation, root cause and CAPA follow-up.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Article guide</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('deviation-capa-basics')">Download</button>
-                    </div>
-                </div>
-
-                <div class="template-card" data-type="article">
-                    <div class="template-badge">PDF</div>
-                    <h4>IQ, OQ and PQ Notes</h4>
-                    <p>A short downloadable explanation of qualification stages and the evidence usually expected.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Article notes</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('iq-oq-pq-notes')">Download</button>
-                    </div>
-                </div>
-
-                <div class="template-card" data-type="checklist">
-                    <div class="template-badge">PDF</div>
-                    <h4>Validation Readiness Checklist</h4>
-                    <p>A basic checklist for reviewing protocol readiness, equipment status, test scripts and acceptance criteria.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Checklist</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('validation-readiness-checklist')">Download</button>
-                    </div>
-                </div>
-
-                <div class="template-card" data-type="article">
-                    <div class="template-badge">PDF</div>
-                    <h4>Audit Readiness Notes</h4>
-                    <p>A downloadable article on inspection preparation, evidence gathering and calm document review.</p>
-                    <div class="template-meta">
-                        <span class="downloads">Article notes</span>
-                        <button class="btn btn-small" onclick="downloadTemplate('audit-readiness-notes')">Download</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FREE RESOURCES -->
-    <section class="resources-section">
-        <div class="container">
-            <h2>Resource Library</h2>
-            <p class="section-subtitle">Useful references that support reading, training and day-to-day GMP awareness.</p>
-            <div class="business-grid">
-                <div class="business-card">
-                    <h3>GMP Audit Readiness Checklist</h3>
-                    <p>A concise checklist for preparing documents, records and teams before an internal or external audit.</p>
-                    <span class="priority must">Checklist</span>
-                </div>
-                <div class="business-card">
-                    <h3>Validation Readiness Checklist</h3>
-                    <p>A practical review aid for qualification and validation activities before execution starts.</p>
-                    <span class="priority must">Checklist</span>
-                </div>
-                <div class="business-card">
-                    <h3>Greenfield Startup Notes</h3>
-                    <p>Simple learning notes for teams thinking through early GMP systems, documentation and facility readiness.</p>
-                    <span class="priority should">Article</span>
+        <section id="resources" class="resources-section">
+            <div class="container">
+                <h2>Free GMP Resources</h2>
+                <p class="section-subtitle">Free downloads support email capture, learning and trust before premium bundles or consulting support.</p>
+                <div class="business-grid searchable-content">
+                    <div class="business-card" data-search="GMP Starter Checklist free"><h3>GMP Starter Checklist</h3><p>Basic GMP documentation, training and facility awareness checklist.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('gmp-starter-checklist')">Download Free Checklist</button></div>
+                    <div class="business-card" id="audit-readiness" data-search="Audit Readiness Checklist inspection"><h3>Audit Readiness Checklist</h3><p>Inspection preparation checklist for documents, records, CAPA, validation and site readiness.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('audit-readiness-checklist')">Download</button></div>
+                    <div class="business-card" id="draft-sop" data-search="SOP Writing Guide"><h3>SOP Writing Guide</h3><p>Step-by-step structure for writing clear, controlled GMP procedures.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('sop-writing-guide')">Download</button></div>
+                    <div class="business-card" data-search="Validation Readiness Checklist"><h3>Validation Readiness Checklist</h3><p>Review protocol readiness, equipment status, test scripts and acceptance criteria.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('validation-readiness-checklist')">Download</button></div>
+                    <div class="business-card" data-search="CAPA Investigation Checklist"><h3>CAPA Investigation Checklist</h3><p>Support root cause analysis, action planning and effectiveness checks.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('capa-investigation-checklist')">Download</button></div>
+                    <div class="business-card" data-search="Change Control Checklist"><h3>Change Control Checklist</h3><p>Screen impact on documents, validation, training, materials, suppliers and regulatory filings.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('change-control-checklist')">Download</button></div>
+                    <div class="business-card" id="training" data-search="Training Matrix Template"><h3>Training Matrix Template</h3><p>Simple matrix for roles, SOPs, training frequency and completion tracking.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('training-matrix-template')">Download</button></div>
+                    <div class="business-card" data-search="Data Integrity Checklist"><h3>Data Integrity Checklist</h3><p>ALCOA+ checklist for records, audit trails, corrections and review practices.</p><button class="btn btn-primary btn-small" onclick="downloadTemplate('data-integrity-checklist')">Download</button></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTENT ROADMAP SECTION -->
-    <section id="roadmap" class="roadmap-section">
-        <div class="container">
-            <h2>Upcoming Content</h2>
-            <p class="section-subtitle">The site will grow through useful articles and downloadable resources over time.</p>
-            <div class="roadmap-grid">
-                <div class="roadmap-card">
-                    <span class="phase">Now</span>
-                    <h3>Core GMP Articles</h3>
-                    <p>Short articles on SOPs, deviations, CAPA, data integrity, training and document control.</p>
-                    <ul>
-                        <li>Plain-language explanations</li>
-                        <li>Practical examples</li>
-                        <li>Downloadable summaries</li>
-                    </ul>
-                </div>
-                <div class="roadmap-card">
-                    <span class="phase">Next</span>
-                    <h3>Validation and Utilities</h3>
-                    <p>Article guides for IQ, OQ, PQ, cleaning validation, HVAC, PW, WFI and compressed air.</p>
-                    <ul>
-                        <li>Topic-based learning notes</li>
-                        <li>Simple checklists</li>
-                        <li>Reference-friendly downloads</li>
-                    </ul>
-                </div>
-                <div class="roadmap-card">
-                    <span class="phase">Later</span>
-                    <h3>Reader Requested Topics</h3>
-                    <p>New articles based on questions from QA, QC, production, engineering and validation readers.</p>
-                    <ul>
-                        <li>Reader topic suggestions</li>
-                        <li>Frequently asked questions</li>
-                        <li>Practical GMP summaries</li>
-                    </ul>
+        <section class="pricing" id="premium">
+            <div class="container">
+                <h2>Featured Premium Resources and Bundle Offers</h2>
+                <p class="section-subtitle">Revenue-focused products for professionals and project teams who need deeper document support.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card"><h3>Audit Readiness Bundle</h3><div class="price">$79</div><p class="price-period">PDF/DOCX/XLSX</p><ul class="features-list"><li>Audit checklist</li><li>Document request tracker</li><li>CAPA review sheet</li><li>Inspection prep guide</li></ul><button class="btn btn-secondary" onclick="downloadTemplate('audit-readiness-bundle')">Buy Bundle</button></div>
+                    <div class="pricing-card featured"><div class="featured-badge">POPULAR</div><h3>Validation Protocol Bundle</h3><div class="price">$149</div><p class="price-period">URS, DQ, IQ, OQ, PQ</p><ul class="features-list"><li>Validation Master Plan</li><li>Qualification protocols</li><li>Utility templates</li><li>Traceability tracker</li></ul><button class="btn btn-primary" onclick="downloadTemplate('validation-protocol-bundle')">Buy Bundle</button></div>
+                    <div class="pricing-card"><h3>Greenfield Startup Bundle</h3><div class="price">$199</div><p class="price-period">Startup checklist pack</p><ul class="features-list"><li>QMS setup checklist</li><li>Document master list</li><li>Utility readiness checklist</li><li>Training launch matrix</li></ul><button class="btn btn-secondary" onclick="downloadTemplate('greenfield-startup-bundle')">Buy Bundle</button></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- NEWSLETTER SIGNUP -->
-    <section id="newsletter" class="newsletter">
-        <div class="container">
-            <div class="newsletter-content">
-                <h2>Get New GMP Articles</h2>
-                <p>Join the update list for simple GMP articles, downloadable notes, checklists and practical quality resources.</p>
-                <form class="newsletter-form" id="newsletterForm">
-                    <input 
-                        type="email" 
-                        placeholder="Enter your email" 
-                        required 
-                        id="newsletterEmail"
-                    >
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                </form>
-                <p class="newsletter-note">No spam. Just new article updates and useful downloadable resources.</p>
-                <div id="newsletterMessage" class="newsletter-message"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- READER FEEDBACK -->
-    <section class="testimonials">
-        <div class="container">
-            <h2>Reader Feedback</h2>
-            <p class="section-subtitle">Examples of the kind of feedback this site is designed to support.</p>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="stars">Learning note</div>
-                    <p>"The SOP article made the document structure easier to explain to a new team member."</p>
-                    <p class="testimonial-author">- QA Reader</p>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">Download note</div>
-                    <p>"The validation notes were useful as a quick reminder before protocol review."</p>
-                    <p class="testimonial-author">- Validation Reader</p>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">Checklist note</div>
-                    <p>"The checklist helped organize the key points before an audit readiness discussion."</p>
-                    <p class="testimonial-author">- GMP Reader</p>
+        <section id="published-articles" class="blog-preview published-band">
+            <div class="container">
+                <h2>Published Articles and Blog</h2>
+                <p class="section-subtitle">Article management structure for title, category, author, publish date, featured image, summary, SEO metadata, keywords, related articles and CTAs.</p>
+                <div class="blog-grid">
+                    <article class="blog-card"><div class="blog-category">SEO Article</div><h3>Pharmaceutical QA Documentation: What Good Looks Like</h3><p>Meta title: Pharmaceutical QA Documentation Guide | Qualizenz. Meta description: Learn how QA documentation supports GMP compliance, audit readiness and controlled operations.</p><div class="blog-meta"><span>Keywords: QA documentation, GMP records</span><a href="#newsletter" class="read-article">Subscribe -></a></div></article>
+                    <article class="blog-card"><div class="blog-category">SEO Article</div><h3>HVAC Qualification in Pharma</h3><p>Meta title: HVAC Qualification Pharma Guide | Qualizenz. Meta description: Understand HVAC qualification, pressure cascade checks, airflow, temperature, humidity and cleanroom controls.</p><div class="blog-meta"><span>Keywords: HVAC qualification pharma</span><a href="#validation-templates" class="read-article">View Protocol -></a></div></article>
+                    <article class="blog-card" id="blog"><div class="blog-category">Blog</div><h3>Water System Qualification: PW and WFI Basics</h3><p>Meta title: Water System Qualification Guide | Qualizenz. Meta description: Learn the basics of purified water and WFI qualification for pharmaceutical utility systems.</p><div class="blog-meta"><span>Related: Utilities, Validation</span><a href="#consulting" class="read-article">Request Support -></a></div></article>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Suggest an Article Topic</h2>
-            <p class="section-subtitle">Send a topic you want explained simply in a future Qualizenz article or downloadable guide.</p>
-            
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <h4>Good Topic Ideas</h4>
-                        <p>SOP writing, deviation handling, CAPA, validation basics, audit readiness, data integrity, cleaning validation and sterile manufacturing.</p>
+        <section id="consulting" class="contact">
+            <div class="container">
+                <h2>Pharmaceutical Consulting Services</h2>
+                <p class="section-subtitle">Professional support for SOPs, validation documents, audit readiness, vendor qualification, training material and QMS setup.</p>
+                <div class="consulting-grid">
+                    <div class="consulting-card"><h3>SOP Review</h3><p>Review SOP structure, clarity, GMP alignment, responsibilities and approval readiness.</p></div>
+                    <div class="consulting-card"><h3>Validation Document Review</h3><p>Review URS, DQ, IQ, OQ, PQ, VMP, cleaning validation, process validation and CSV documents.</p></div>
+                    <div class="consulting-card"><h3>Audit Readiness Support</h3><p>Prepare document lists, mock audit focus areas, response structure and evidence review.</p></div>
+                    <div class="consulting-card"><h3>Vendor Qualification Support</h3><p>Support questionnaires, risk rating, approval records and supplier qualification documentation.</p></div>
+                    <div class="consulting-card"><h3>Training Material Preparation</h3><p>Create GMP training notes, matrices, quizzes, induction content and refresher materials.</p></div>
+                    <div class="consulting-card"><h3>Greenfield Project Support</h3><p>Support startup QMS planning, documentation roadmap, utilities readiness and validation planning.</p></div>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item"><h4>Consulting Inquiry</h4><p>Use the form for GMP documentation support, pharmaceutical quality system setup or project-specific help.</p></div>
+                        <div class="contact-item"><h4>Upload Document</h4><p>The upload field is included for future backend integration. On GitHub Pages it records the file name only.</p></div>
+                        <div class="contact-item"><h4>Business Inquiry</h4><p>Email: info@qualizenz.com<br>WhatsApp: add your WhatsApp link<br>LinkedIn, Facebook and Instagram links can be connected when ready.</p></div>
                     </div>
-                    <div class="contact-item">
-                        <h4>Preferred Style</h4>
-                        <p>Simple, practical, easy to read and useful for daily GMP work or team learning.</p>
-                    </div>
-                    <div class="contact-item">
-                        <h4>Downloadable Resources</h4>
-                        <p>If a topic needs a checklist or PDF article, mention that in your message.</p>
-                    </div>
+                    <form class="contact-form" id="consultingForm">
+                        <input type="text" name="name" placeholder="Name" required>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="tel" name="phone" placeholder="Phone / WhatsApp">
+                        <input type="text" name="country" placeholder="Country">
+                        <input type="text" name="company" placeholder="Company / Organization">
+                        <select name="service" required>
+                            <option value="">Service Required</option>
+                            <option>SOP Review</option>
+                            <option>Validation Document Review</option>
+                            <option>Audit Readiness Support</option>
+                            <option>Vendor Qualification Support</option>
+                            <option>Training Material Preparation</option>
+                            <option>Greenfield Pharmaceutical Project Support</option>
+                            <option>GMP Documentation Support</option>
+                            <option>Pharmaceutical Quality System Setup</option>
+                        </select>
+                        <textarea name="message" placeholder="Message" rows="5" required></textarea>
+                        <input type="file" name="document">
+                        <button type="submit" class="btn btn-primary">Submit Consulting Inquiry</button>
+                    </form>
                 </div>
-                
-                <form class="contact-form" id="contactForm">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <select name="topic" required>
-                        <option value="">Select Topic Area</option>
-                        <option value="gmp-basics">GMP Basics</option>
-                        <option value="quality-assurance">Quality Assurance</option>
-                        <option value="quality-control">Quality Control</option>
-                        <option value="validation">Validation</option>
-                        <option value="sterile-manufacturing">Sterile Manufacturing</option>
-                    </select>
-                    <textarea name="message" placeholder="What article or downloadable guide should Qualizenz create next?" rows="5" required></textarea>
-                    <button type="submit" class="btn btn-primary">Send Topic Suggestion</button>
-                </form>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOOTER -->
+        <section id="contact" class="contact contact-band">
+            <div class="container">
+                <h2>Contact Qualizenz</h2>
+                <p class="section-subtitle">Send a message, business inquiry or article/resource request.</p>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item"><h4>Email</h4><p><a href="mailto:info@qualizenz.com">info@qualizenz.com</a></p></div>
+                        <div class="contact-item"><h4>Social Links</h4><p><a href="#">LinkedIn</a> • <a href="#">Facebook</a> • <a href="#">Instagram</a></p></div>
+                        <div class="contact-item"><h4>Business Inquiry</h4><p>Use the form for partnerships, article requests, downloadable resources or consulting support.</p></div>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <select name="topic" required><option value="">Select Topic</option><option>Article Request</option><option>Template Question</option><option>Consulting</option><option>Business Inquiry</option><option>Newsletter</option></select>
+                        <textarea name="message" placeholder="Tell us what you need..." rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="newsletter" class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>Subscribe to the Qualizenz Newsletter</h2>
+                    <p>Get GMP articles, free resources, template releases, premium bundle updates and consulting availability notes.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Enter your email" required id="newsletterEmail">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                    <p class="newsletter-note">Free resources for email capture. Premium resources and consulting updates are sent only when relevant.</p>
+                    <div id="newsletterMessage" class="newsletter-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="features about-section">
+            <div class="container">
+                <h2>About Qualizenz</h2>
+                <p class="section-subtitle">Qualizenz is a public pharmaceutical information platform, not an internal company system. It does not require employee roles, complex permissions or internal workflow access.</p>
+                <div class="features-grid">
+                    <div class="feature-card"><div class="feature-icon">QA</div><h3>For Pharma Professionals</h3><p>Built for QA, QC, production, engineering, validation, audit, consulting and training audiences.</p></div>
+                    <div class="feature-card"><div class="feature-icon">GMP</div><h3>For Practical Learning</h3><p>Articles and resources are written to support everyday GMP understanding and document readiness.</p></div>
+                    <div class="feature-card"><div class="feature-icon">VAL</div><h3>For Revenue Growth</h3><p>The site supports free resources, paid digital products, premium bundles, newsletter growth and consulting inquiries.</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Qualizenz</h4>
-                    <p>Independent pharmaceutical GMP articles, downloadable guides and practical quality learning resources.</p>
-                    <p class="copyright">Copyright 2026 Qualizenz. All rights reserved.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#blog">Simple Articles</a></li>
-                        <li><a href="#downloads">Downloadable Articles</a></li>
-                        <li><a href="#resources">Knowledge Areas</a></li>
-                        <li><a href="#newsletter">Newsletter</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Topics</h4>
-                    <ul>
-                        <li><a href="#resources">GMP</a></li>
-                        <li><a href="#resources">Quality Assurance</a></li>
-                        <li><a href="#resources">Validation</a></li>
-                        <li><a href="#resources">Manufacturing</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Disclaimer</h4>
-                    <p>Educational content should be reviewed against your site procedures, product requirements and applicable regulations before operational use.</p>
-                </div>
+                <div class="footer-section"><h4>Qualizenz</h4><p>Quality • Compliance • Validation • Excellence</p><p>Professional GMP articles, SOP templates, validation templates, resources and consulting support.</p></div>
+                <div class="footer-section"><h4>Resources</h4><ul><li><a href="#articles">GMP Articles</a></li><li><a href="#sop-templates">SOP Templates</a></li><li><a href="#validation-templates">Validation Templates</a></li><li><a href="#resources">Free Resources</a></li></ul></div>
+                <div class="footer-section"><h4>Services</h4><ul><li><a href="#consulting">Consulting</a></li><li><a href="#newsletter">Newsletter Signup</a></li><li><a href="admin_dashboard.html">Admin Content Dashboard</a></li><li><a href="#contact">Contact</a></li></ul></div>
+                <div class="footer-section"><h4>Disclaimer</h4><p>Qualizenz provides educational resources, templates, and consulting support. All templates and guidance must be reviewed, customized, approved, and controlled by qualified personnel before use in any GMP-regulated environment.</p></div>
             </div>
-            <div class="footer-bottom">
-                <p>Qualizenz shares simple GMP articles and downloadable learning resources for pharmaceutical quality professionals.</p>
-            </div>
+            <div class="footer-bottom"><p>Copyright 2026 Qualizenz. All rights reserved.</p></div>
         </div>
     </footer>
 

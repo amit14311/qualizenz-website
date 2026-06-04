@@ -1,244 +1,287 @@
-// SMOOTH SCROLL NAVIGATION
 function scrollTo(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
     }
 }
 
-// NEWSLETTER FORM HANDLING
-document.addEventListener('DOMContentLoaded', function() {
-    const newsletterForm = document.getElementById('newsletterForm');
-    const newsletterMessage = document.getElementById('newsletterMessage');
-    
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('newsletterEmail').value;
-            
-            // Save to local storage for demo
-            let subscribers = JSON.parse(localStorage.getItem('subscribers')) || [];
-            
-            if (!subscribers.includes(email)) {
-                subscribers.push(email);
-                localStorage.setItem('subscribers', JSON.stringify(subscribers));
-                
-                // Show success message
-                newsletterMessage.innerHTML = `
-                    <div class="success-message" style="
-                        background-color: #D1FAE5;
-                        color: #065F46;
-                        padding: 12px;
-                        border-radius: 6px;
-                        margin-top: 1rem;
-                    ">
-                        Success. Thank you! You are on the Qualizenz article update list.
-                    </div>
-                `;
-                
-                // Log to console for debugging
-                console.log('Newsletter subscriber added:', email);
-                console.log('Total subscribers:', subscribers.length);
-                
-                // Reset form
-                newsletterForm.reset();
-                
-                // Clear message after 5 seconds
-                setTimeout(() => {
-                    newsletterMessage.innerHTML = '';
-                }, 5000);
-            } else {
-                newsletterMessage.innerHTML = `
-                    <div class="warning-message" style="
-                        background-color: #FEF3C7;
-                        color: #92400E;
-                        padding: 12px;
-                        border-radius: 6px;
-                        margin-top: 1rem;
-                    ">
-                        You are already subscribed.
-                    </div>
-                `;
-            }
-        });
+function readStore(key, fallback) {
+    try {
+        return JSON.parse(localStorage.getItem(key)) || fallback;
+    } catch {
+        return fallback;
     }
+}
 
-    // TOPIC SUGGESTION FORM HANDLING
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(contactForm);
-            const name = formData.get('name') || 'Anonymous';
-            const email = formData.get('email') || 'no-email@example.com';
-            const topic = formData.get('topic') || 'general';
-            const message = formData.get('message') || '';
-            
-            // Save to local storage
-            let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
-            contacts.push({
-                name: name,
-                email: email,
-                topic: topic,
-                message: message,
-                timestamp: new Date().toISOString()
-            });
-            localStorage.setItem('contacts', JSON.stringify(contacts));
-            
-            console.log('Topic suggestion saved:', { name, email, topic });
-            
-            alert('Thank you. Your article topic suggestion has been saved.');
-            contactForm.reset();
-        });
-    }
+function writeStore(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function saveRecord(key, record) {
+    const rows = readStore(key, []);
+    rows.push({
+        id: `${key}-${Date.now()}`,
+        createdAt: new Date().toISOString(),
+        ...record
+    });
+    writeStore(key, rows);
+    return rows;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    initSearch();
+    initNewsletterForm();
+    initContactForm();
+    initConsultingForm();
+    trackPageView();
 });
 
-// DOWNLOAD FILTERING
-function filterTemplates(type, event) {
-    const templates = document.querySelectorAll('.template-card');
-    const buttons = document.querySelectorAll('.filter-btn');
-    
-    // Update active button
-    buttons.forEach(btn => btn.classList.remove('active'));
-    if (event && event.target) {
-        event.target.classList.add('active');
-    }
-    
-    // Filter downloadable resources
-    templates.forEach(template => {
-        if (type === 'all' || template.dataset.type === type) {
-            template.style.display = 'block';
-            setTimeout(() => {
-                template.style.opacity = '1';
-            }, 10);
-        } else {
-            template.style.display = 'none';
+function initSearch() {
+    const search = document.getElementById("siteSearch");
+    if (!search) return;
+
+    search.addEventListener("input", function() {
+        const query = this.value.trim().toLowerCase();
+        const cards = document.querySelectorAll(".searchable-content [data-search]");
+
+        cards.forEach(card => {
+            const haystack = `${card.dataset.search || ""} ${card.innerText}`.toLowerCase();
+            card.style.display = !query || haystack.includes(query) ? "" : "none";
+        });
+    });
+}
+
+function initNewsletterForm() {
+    const newsletterForm = document.getElementById("newsletterForm");
+    const newsletterMessage = document.getElementById("newsletterMessage");
+    if (!newsletterForm) return;
+
+    newsletterForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const email = document.getElementById("newsletterEmail").value.trim().toLowerCase();
+        const subscribers = readStore("newsletter_subscribers", []);
+
+        if (subscribers.some(row => row.email === email)) {
+            newsletterMessage.innerHTML = messageBox("You are already subscribed.", "warning");
+            return;
         }
+
+        saveRecord("newsletter_subscribers", {
+            email,
+            source: "homepage_newsletter"
+        });
+
+        newsletterMessage.innerHTML = messageBox("Success. You are subscribed to Qualizenz updates.", "success");
+        newsletterForm.reset();
     });
 }
 
-// DOWNLOAD ARTICLE OR RESOURCE
-function downloadTemplate(templateId) {
-    console.log('Downloading resource:', templateId);
-    
-    // Log download
-    let downloads = JSON.parse(localStorage.getItem('downloads')) || [];
-    downloads.push({
-        resourceId: templateId,
-        timestamp: new Date().toISOString()
+function initContactForm() {
+    const contactForm = document.getElementById("contactForm");
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+
+        saveRecord("contact_messages", {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            topic: formData.get("topic"),
+            message: formData.get("message")
+        });
+
+        alert("Thank you. Your message has been recorded.");
+        contactForm.reset();
     });
-    localStorage.setItem('downloads', JSON.stringify(downloads));
-    
-    alert(`Resource "${templateId}" selected.\n\nIn production, this will download the article PDF or checklist file.`);
 }
 
-// ANALYTICS TRACKING
+function initConsultingForm() {
+    const consultingForm = document.getElementById("consultingForm");
+    if (!consultingForm) return;
+
+    consultingForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(consultingForm);
+        const file = formData.get("document");
+
+        saveRecord("consulting_requests", {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            country: formData.get("country"),
+            company: formData.get("company"),
+            service: formData.get("service"),
+            message: formData.get("message"),
+            documentName: file && file.name ? file.name : ""
+        });
+
+        alert("Thank you. Your consulting inquiry has been recorded.");
+        consultingForm.reset();
+    });
+}
+
+function filterResources(group, type, event) {
+    const cards = document.querySelectorAll(`[data-group="${group}"]`);
+    const section = event && event.target ? event.target.closest("section") : null;
+    const buttons = section ? section.querySelectorAll(".filter-btn") : [];
+
+    buttons.forEach(btn => btn.classList.remove("active"));
+    if (event && event.target) {
+        event.target.classList.add("active");
+    }
+
+    cards.forEach(card => {
+        card.style.display = type === "all" || card.dataset.type === type ? "" : "none";
+    });
+}
+
+function filterTemplates(type, event) {
+    filterResources("sop", type, event);
+}
+
+function downloadTemplate(resourceId) {
+    const downloads = saveRecord("downloads", {
+        resourceId,
+        page: window.location.pathname
+    });
+
+    updateStatistic("download_count", downloads.length);
+    alert(`Resource selected: ${resourceId}\n\nConnect payment/download delivery later for paid products. Free resources can be delivered by email automation or direct file link.`);
+}
+
+function previewResource(title) {
+    alert(`${title}\n\nPreview page or sample PDF can be connected when the file is ready.`);
+}
+
 function trackPageView() {
-    const pageData = {
-        page: window.location.pathname,
-        timestamp: new Date().toISOString(),
-        referrer: document.referrer,
+    const pageViews = saveRecord("website_statistics", {
+        type: "page_view",
+        page: window.location.pathname || "/",
+        referrer: document.referrer || "",
         userAgent: navigator.userAgent
-    };
-    
-    console.log('Page View:', pageData);
-    
-    // Store analytics data
-    let pageViews = JSON.parse(localStorage.getItem('pageViews')) || [];
-    pageViews.push(pageData);
-    localStorage.setItem('pageViews', JSON.stringify(pageViews));
+    });
+
+    updateStatistic("page_views", pageViews.length);
 }
 
-// DASHBOARD DATA RETRIEVAL
+function updateStatistic(name, value) {
+    const stats = readStore("qualizenz_stats", {});
+    stats[name] = value;
+    stats.updatedAt = new Date().toISOString();
+    writeStore("qualizenz_stats", stats);
+}
+
 function getDashboardData() {
     return {
-        subscribers: JSON.parse(localStorage.getItem('subscribers')) || [],
-        topicSuggestions: JSON.parse(localStorage.getItem('contacts')) || [],
-        downloads: JSON.parse(localStorage.getItem('downloads')) || [],
-        pageViews: JSON.parse(localStorage.getItem('pageViews')) || []
+        articles: readStore("articles", seedArticles()),
+        categories: readStore("categories", seedCategories()),
+        sop_templates: readStore("sop_templates", []),
+        validation_templates: readStore("validation_templates", []),
+        free_resources: readStore("free_resources", []),
+        consulting_requests: readStore("consulting_requests", []),
+        contact_messages: readStore("contact_messages", []),
+        newsletter_subscribers: readStore("newsletter_subscribers", []),
+        downloads: readStore("downloads", []),
+        website_statistics: readStore("website_statistics", []),
+        stats: readStore("qualizenz_stats", {})
     };
 }
 
-// DISPLAY DASHBOARD (for development/testing)
 function showDashboard() {
-    const data = getDashboardData();
-    console.log('=== Qualizenz Dashboard ===');
-    console.log('Total Email Subscribers:', data.subscribers.length);
-    console.log('Total Topic Suggestions:', data.topicSuggestions.length);
-    console.log('Total Resource Downloads:', data.downloads.length);
-    console.log('Total Page Views:', data.pageViews.length);
-    console.log('Subscribers:', data.subscribers);
-    console.log('Topic Suggestions:', data.topicSuggestions);
-    console.log('Downloads:', data.downloads);
-    console.log('Page Views:', data.pageViews);
+    console.log("Qualizenz Dashboard", getDashboardData());
 }
 
-// SMOOTH SCROLL FOR ANCHOR LINKS
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-});
+function messageBox(text, type) {
+    const colors = {
+        success: ["#D1FAE5", "#065F46"],
+        warning: ["#FEF3C7", "#92400E"],
+        info: ["#DBEAFE", "#1E3A8A"]
+    };
+    const color = colors[type] || colors.info;
+    return `<div style="background:${color[0]};color:${color[1]};padding:12px;border-radius:6px;margin-top:1rem;">${text}</div>`;
+}
 
-// MOBILE MENU (if needed)
 function toggleMobileMenu() {
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks = document.querySelector(".nav-links");
     if (navLinks) {
-        navLinks.classList.toggle('active');
+        navLinks.classList.toggle("active");
     }
 }
 
-// Initialize on page load
-window.addEventListener('load', function() {
-    trackPageView();
-    console.log('Qualizenz website loaded successfully');
-    console.log('Type "showDashboard()" in console to see analytics');
-});
-
-// FORM VALIDATION
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+function seedCategories() {
+    return [
+        "GMP",
+        "Quality Assurance",
+        "Quality Control",
+        "Data Integrity",
+        "Documentation and GDP",
+        "SOP Management",
+        "CAPA",
+        "Deviation",
+        "Change Control",
+        "Risk Management",
+        "Validation",
+        "Qualification",
+        "Cleaning Validation",
+        "Process Validation",
+        "Computer System Validation",
+        "Sterile Manufacturing",
+        "BFS Technology",
+        "Terminal Sterilization",
+        "Environmental Monitoring",
+        "HVAC",
+        "Purified Water",
+        "WFI",
+        "Pure Steam",
+        "Compressed Air",
+        "Nitrogen System",
+        "Warehouse",
+        "Vendor Qualification",
+        "Audit Readiness",
+        "Regulatory Guidance",
+        "Pharmaceutical Greenfield Projects"
+    ];
 }
 
-// NOTIFICATION SYSTEM
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: ${type === 'success' ? '#10B981' : '#4F46E5'};
-        color: white;
-        padding: 16px 24px;
-        border-radius: 8px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
+function seedArticles() {
+    return [
+        {
+            id: "article-001",
+            title: "How to Write a GMP SOP",
+            category: "Documentation and GDP",
+            author: "Qualizenz Team",
+            publishDate: "2026-06-04",
+            status: "Published",
+            summary: "A practical guide to SOP structure, approval, training and document control.",
+            seoTitle: "How to Write a GMP SOP | Qualizenz",
+            seoDescription: "Learn how to write GMP SOPs for pharmaceutical quality systems.",
+            keywords: "GMP SOP templates, pharmaceutical QA documentation",
+            views: 0
+        },
+        {
+            id: "article-002",
+            title: "IQ, OQ and PQ Explained",
+            category: "Validation",
+            author: "Qualizenz Team",
+            publishDate: "2026-06-04",
+            status: "Published",
+            summary: "A simple explanation of installation, operational and performance qualification.",
+            seoTitle: "IQ OQ PQ Explained | Qualizenz",
+            seoDescription: "Understand pharmaceutical validation and qualification stages.",
+            keywords: "pharmaceutical validation templates, IQ OQ PQ",
+            views: 0
+        }
+    ];
 }
 
-// EXPORT DATA FOR BACKUP
 function exportData() {
     const data = getDashboardData();
-    const dataStr = JSON.stringify(data, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const dataBlob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = `qualizenz-data-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `qualizenz-data-${new Date().toISOString().split("T")[0]}.json`;
     link.click();
-    console.log('Data exported successfully');
+    URL.revokeObjectURL(url);
 }
