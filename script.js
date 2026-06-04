@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         border-radius: 6px;
                         margin-top: 1rem;
                     ">
-                        Success. Thank you! In production this will send the GMP starter checklist.
+                        Success. Thank you! You are on the Qualizenz article update list.
                     </div>
                 `;
                 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // CONTACT FORM HANDLING
+    // TOPIC SUGGESTION FORM HANDLING
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -87,15 +87,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             localStorage.setItem('contacts', JSON.stringify(contacts));
             
-            console.log('Contact message saved:', { name, email, topic });
+            console.log('Topic suggestion saved:', { name, email, topic });
             
-            alert('Thank you. Your consulting request has been saved for this demo.');
+            alert('Thank you. Your article topic suggestion has been saved.');
             contactForm.reset();
         });
     }
 });
 
-// TEMPLATE FILTERING
+// DOWNLOAD FILTERING
 function filterTemplates(type, event) {
     const templates = document.querySelectorAll('.template-card');
     const buttons = document.querySelectorAll('.filter-btn');
@@ -106,7 +106,7 @@ function filterTemplates(type, event) {
         event.target.classList.add('active');
     }
     
-    // Filter templates
+    // Filter downloadable resources
     templates.forEach(template => {
         if (type === 'all' || template.dataset.type === type) {
             template.style.display = 'block';
@@ -119,25 +119,19 @@ function filterTemplates(type, event) {
     });
 }
 
-// DOWNLOAD TEMPLATE
+// DOWNLOAD ARTICLE OR RESOURCE
 function downloadTemplate(templateId) {
-    console.log('Downloading template:', templateId);
+    console.log('Downloading resource:', templateId);
     
     // Log download
     let downloads = JSON.parse(localStorage.getItem('downloads')) || [];
     downloads.push({
-        templateId: templateId,
+        resourceId: templateId,
         timestamp: new Date().toISOString()
     });
     localStorage.setItem('downloads', JSON.stringify(downloads));
     
-    alert(`Template "${templateId}" downloaded.\n\nIn production, this would trigger a real file download or email delivery.`);
-}
-
-// BUY TEMPLATE
-function buyTemplate(templateId) {
-    console.log('Purchasing template:', templateId);
-    alert(`Purchasing "${templateId}".\n\nIn production, this would redirect to Stripe, Gumroad, Lemon Squeezy or Payhip.`);
+    alert(`Resource "${templateId}" selected.\n\nIn production, this will download the article PDF or checklist file.`);
 }
 
 // ANALYTICS TRACKING
@@ -161,7 +155,7 @@ function trackPageView() {
 function getDashboardData() {
     return {
         subscribers: JSON.parse(localStorage.getItem('subscribers')) || [],
-        contacts: JSON.parse(localStorage.getItem('contacts')) || [],
+        topicSuggestions: JSON.parse(localStorage.getItem('contacts')) || [],
         downloads: JSON.parse(localStorage.getItem('downloads')) || [],
         pageViews: JSON.parse(localStorage.getItem('pageViews')) || []
     };
@@ -172,11 +166,11 @@ function showDashboard() {
     const data = getDashboardData();
     console.log('=== Qualizenz Dashboard ===');
     console.log('Total Email Subscribers:', data.subscribers.length);
-    console.log('Total Contact Messages:', data.contacts.length);
-    console.log('Total Template Downloads:', data.downloads.length);
+    console.log('Total Topic Suggestions:', data.topicSuggestions.length);
+    console.log('Total Resource Downloads:', data.downloads.length);
     console.log('Total Page Views:', data.pageViews.length);
     console.log('Subscribers:', data.subscribers);
-    console.log('Contact Messages:', data.contacts);
+    console.log('Topic Suggestions:', data.topicSuggestions);
     console.log('Downloads:', data.downloads);
     console.log('Page Views:', data.pageViews);
 }
@@ -211,18 +205,6 @@ window.addEventListener('load', function() {
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
-}
-
-// ADD TO CART FUNCTIONALITY (for future e-commerce)
-function addToCart(templateId, price) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({
-        templateId: templateId,
-        price: price,
-        addedAt: new Date().toISOString()
-    });
-    localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('Added to cart:', templateId);
 }
 
 // NOTIFICATION SYSTEM
