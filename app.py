@@ -15,7 +15,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__, static_folder=None)
-app.secret_key = os.environ.get('QUALIZENZ_SECRET_KEY', 'qualizenz-local-owner-secret-change-before-hosting')
+IS_PRODUCTION = os.environ.get('RENDER') == 'true' or os.environ.get('FLASK_ENV') == 'production'
+app.secret_key = os.environ.get('QUALIZENZ_SECRET_KEY') or os.environ.get('SECRET_KEY') or 'qualizenz-local-owner-secret-change-before-hosting'
 
 # Optional CORS support if flask_cors is installed
 try:
@@ -48,15 +49,29 @@ TEMPLATES_FILE = DATA_DIR / 'templates.json'
 SITE_SETTINGS_FILE = DATA_DIR / 'site_settings.json'
 ADMIN_AUTH_FILE = DATA_DIR / 'admin_auth.json'
 DEFAULT_ADMIN_PASSWORD = os.environ.get('QUALIZENZ_ADMIN_PASSWORD', 'Qualizenz@2026')
+ADMIN_USERNAME = os.environ.get('QUALIZENZ_ADMIN_USERNAME', 'admin')
+
+# Supabase settings for production storage/database integration
+SUPABASE_URL = os.environ.get('SUPABASE_URL', '').strip()
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '').strip()
+SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', '').strip()
+SUPABASE_STORAGE_BUCKET = os.environ.get('SUPABASE_STORAGE_BUCKET', 'qualizenz-uploads').strip()
+SUPABASE_ARTICLE_PREFIX = os.environ.get('SUPABASE_ARTICLE_PREFIX', 'articles').strip().strip('/')
 
 # Upload storage
 UPLOAD_DIR = BASE_DIR / 'uploads'
 ARTICLE_UPLOAD_DIR = UPLOAD_DIR / 'articles'
 ARTICLE_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 ALLOWED_ARTICLE_EXTENSIONS = {'pdf', 'docx'}
+ALLOWED_UPLOAD_EXTENSIONS = {'pdf', 'docx', 'xlsx', 'png', 'jpg', 'jpeg'}
 MAX_UPLOAD_SIZE = 50 * 1024 * 1024
 
-app.config['MAX_CONTENT_LENGTH'] = MAX_UPLOAD_SIZE
+app.config.update(
+    MAX_CONTENT_LENGTH=MAX_UPLOAD_SIZE,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SECURE=bool(IS_PRODUCTION),
+)
 
 def load_json_file(filepath):
     """Load JSON data from file"""
@@ -73,6 +88,52 @@ def save_json_file(filepath, data):
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=2)
     return True
+
+def supabase_storage_enabled():
+    """Return True when Supabase Storage credentials are configured."""
+    return bool(SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY and SUPABASE_STORAGE_BUCKET)
+
+def get_supabase_client():
+    """Create a Supabase client only when deployment env vars are available."""
+    if not supabase_storage_enabled():
+        return None
+    try:
+        from supabase import create_client
+        return create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    except Exception:
+        return None
+
+def upload_file_to_supabase(local_path, storage_path):
+    """Upload a file into Supabase Storage and return provider metadata."""
+    client = get_supabase_client()
+    if not client:
+        raise RuntimeError('Supabase Storage is not configured')
+
+    with open(local_path, 'rb') as file_obj:
+        client.storage.from_(SUPABASE_STORAGE_BUCKET).upload(
+            storage_path,
+            file_obj,
+            {'upsert': 'true'}
+        )
+
+    return {
+        'storage_provider': 'supabase',
+        'storage_bucket': SUPABASE_STORAGE_BUCKET,
+        'storage_path': storage_path
+    }
+
+def download_file_from_supabase(storage_path):
+    """Download a Supabase Storage object into a temporary local file."""
+    client = get_supabase_client()
+    if not client:
+        raise RuntimeError('Supabase Storage is not configured')
+
+    file_bytes = client.storage.from_(SUPABASE_STORAGE_BUCKET).download(storage_path)
+    suffix = Path(storage_path).suffix or '.bin'
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
+    temp_file.write(file_bytes)
+    temp_file.close()
+    return Path(temp_file.name)
 
 def default_site_settings():
     """Default public display settings managed by the owner dashboard."""
@@ -135,9 +196,22 @@ def verify_password(password, stored_hash):
 def is_admin_authenticated():
     return bool(session.get('admin_authenticated'))
 
+def admin_required():
+    if not is_admin_authenticated():
+        return jsonify({'error': 'Admin login required'}), 401
+    return None
+
+def public_content(rows):
+    """Return only visible/published content for public visitors."""
+    return [
+        row for row in rows
+        if row.get('is_visible', True) is not False
+        and str(row.get('status', 'published')).lower() == 'published'
+    ]
+
 def allowed_article_file(filename):
     """Return True when the uploaded article file can be branded for download."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_ARTICLE_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_UPLOAD_EXTENSIONS
 
 def find_article(article_id):
     """Find an article by ID from the JSON article store."""
@@ -366,6 +440,10 @@ def submit_contact():
 @app.route('/api/contact/list', methods=['GET'])
 def get_contacts():
     """Get all contact messages (admin only)"""
+    gate = admin_required()
+    if gate:
+        return gate
+
     contacts = load_json_file(CONTACTS_FILE)
     return jsonify({
         'total_contacts': len(contacts),
@@ -405,6 +483,10 @@ def track_template_download():
 @app.route('/api/templates/download-stats', methods=['GET'])
 def get_download_stats():
     """Get download statistics by template"""
+    gate = admin_required()
+    if gate:
+        return gate
+
     downloads = load_json_file(DOWNLOADS_FILE)
     
     stats = {}
@@ -451,6 +533,10 @@ def track_page_view():
 @app.route('/api/analytics/dashboard', methods=['GET'])
 def get_analytics_dashboard():
     """Get analytics dashboard data"""
+    gate = admin_required()
+    if gate:
+        return gate
+
     subscribers = load_json_file(SUBSCRIBERS_FILE)
     contacts = load_json_file(CONTACTS_FILE)
     downloads = load_json_file(DOWNLOADS_FILE)
@@ -473,14 +559,19 @@ def get_analytics_dashboard():
 def get_articles():
     """Get all articles"""
     articles = load_json_file(ARTICLES_FILE)
+    visible_articles = articles if is_admin_authenticated() else public_content(articles)
     return jsonify({
-        'total_articles': len(articles),
-        'articles': articles
+        'total_articles': len(visible_articles),
+        'articles': visible_articles
     })
 
 @app.route('/api/articles/add', methods=['POST'])
 def add_article():
     """Add or update an article draft/published record."""
+    gate = admin_required()
+    if gate:
+        return gate
+
     try:
         data = request.json
         articles = load_json_file(ARTICLES_FILE)
@@ -496,6 +587,7 @@ def add_article():
             'tags': data.get('tags', []),
             'author': data.get('author', 'Qualizenz Team'),
             'status': data.get('status', 'Draft'),
+            'is_visible': bool(data.get('is_visible', data.get('isVisible', True))),
             'publish_date': data.get('publishDate') or data.get('publish_date', ''),
             'featured_image': data.get('featuredImage') or data.get('featured_image', ''),
             'seo_title': data.get('seoTitle') or data.get('seo_title', ''),
@@ -526,6 +618,10 @@ def add_article():
 @app.route('/api/articles/<article_id>/upload-file', methods=['POST'])
 def upload_article_file(article_id):
     """Upload a public article PDF or DOCX file for branded download."""
+    gate = admin_required()
+    if gate:
+        return gate
+
     try:
         article, articles = find_article(article_id)
         if not article:
@@ -539,13 +635,27 @@ def upload_article_file(article_id):
             return jsonify({'error': 'No file selected'}), 400
 
         if not allowed_article_file(uploaded_file.filename):
-            return jsonify({'error': 'Only PDF and DOCX files are supported for branded downloads'}), 400
+            return jsonify({'error': 'Only PDF, DOCX, XLSX, PNG and JPG files are supported'}), 400
 
         extension = uploaded_file.filename.rsplit('.', 1)[1].lower()
         original_name = secure_filename(uploaded_file.filename)
         stored_name = secure_filename(f"{article_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}.{extension}")
-        stored_path = ARTICLE_UPLOAD_DIR / stored_name
-        uploaded_file.save(stored_path)
+        storage_metadata = {'storage_provider': 'local'}
+
+        if supabase_storage_enabled():
+            temp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=f".{extension}") as temp_file:
+                    temp_path = Path(temp_file.name)
+                    uploaded_file.save(temp_path)
+                storage_path = f"{SUPABASE_ARTICLE_PREFIX}/{stored_name}"
+                storage_metadata = upload_file_to_supabase(temp_path, storage_path)
+            finally:
+                if temp_path and temp_path.exists():
+                    temp_path.unlink()
+        else:
+            stored_path = ARTICLE_UPLOAD_DIR / stored_name
+            uploaded_file.save(stored_path)
 
         file_record = {
             'filename': stored_name,
@@ -553,7 +663,8 @@ def upload_article_file(article_id):
             'file_type': extension,
             'uploaded_at': datetime.now().isoformat(),
             'download_count': 0,
-            'public_download_url': f'/api/articles/{article_id}/download/{stored_name}'
+            'public_download_url': f'/api/articles/{article_id}/download/{stored_name}',
+            **storage_metadata
         }
 
         article.setdefault('files', []).append(file_record)
@@ -587,11 +698,25 @@ def download_branded_article(article_id, filename):
         if not file_record:
             return jsonify({'error': 'File not found for this article'}), 404
 
-        source_path = ARTICLE_UPLOAD_DIR / safe_filename
-        if not source_path.exists():
-            return jsonify({'error': 'Stored file missing'}), 404
+        temp_source_path = None
+        if file_record.get('storage_provider') == 'supabase':
+            try:
+                temp_source_path = download_file_from_supabase(file_record.get('storage_path'))
+                source_path = temp_source_path
+            except Exception:
+                return jsonify({'error': 'Stored file missing in Supabase Storage'}), 404
+        else:
+            source_path = ARTICLE_UPLOAD_DIR / safe_filename
+            if not source_path.exists():
+                return jsonify({'error': 'Stored file missing'}), 404
 
-        branded_path, download_name = create_branded_download(source_path, file_record.get('original_name', safe_filename))
+        try:
+            branded_path, download_name = create_branded_download(source_path, file_record.get('original_name', safe_filename))
+        except ValueError as error:
+            return jsonify({'error': str(error)}), 400
+
+        if temp_source_path and temp_source_path.exists():
+            temp_source_path.unlink()
         file_record['download_count'] = file_record.get('download_count', 0) + 1
         article['updated_at'] = datetime.now().isoformat()
         save_json_file(ARTICLES_FILE, articles)
@@ -623,14 +748,19 @@ def download_branded_article(article_id, filename):
 def get_templates():
     """Get all templates"""
     templates = load_json_file(TEMPLATES_FILE)
+    visible_templates = templates if is_admin_authenticated() else public_content(templates)
     return jsonify({
-        'total_templates': len(templates),
-        'templates': templates
+        'total_templates': len(visible_templates),
+        'templates': visible_templates
     })
 
 @app.route('/api/templates/add', methods=['POST'])
 def add_template():
     """Add new template"""
+    gate = admin_required()
+    if gate:
+        return gate
+
     try:
         data = request.json
         
@@ -638,10 +768,18 @@ def add_template():
             'id': data.get('id', f"template_{datetime.now().timestamp()}"),
             'title': data.get('title'),
             'description': data.get('description'),
+            'content': data.get('content', ''),
             'category': data.get('category', 'QA'),
             'type': data.get('type', 'free'),  # free or premium
+            'price': data.get('price', ''),
+            'is_free': bool(data.get('is_free', data.get('type', 'free') == 'free')),
+            'is_visible': bool(data.get('is_visible', True)),
+            'status': data.get('status', 'published'),
+            'file_path': data.get('file_path') or data.get('download_url'),
+            'image_path': data.get('image_path', ''),
             'download_url': data.get('download_url'),
-            'created_at': datetime.now().isoformat()
+            'created_at': datetime.now().isoformat(),
+            'updated_at': datetime.now().isoformat()
         }
         
         templates = load_json_file(TEMPLATES_FILE)
@@ -769,12 +907,19 @@ def api_status():
         'status': 'online',
         'service': 'Qualizenz Backend',
         'version': '1.0.0',
+        'environment': 'production' if IS_PRODUCTION else 'development',
+        'supabase_storage': 'configured' if supabase_storage_enabled() else 'not_configured',
+        'storage_bucket': SUPABASE_STORAGE_BUCKET if supabase_storage_enabled() else None,
         'timestamp': datetime.now().isoformat()
     })
 
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     """Get comprehensive statistics"""
+    gate = admin_required()
+    if gate:
+        return gate
+
     subscribers = load_json_file(SUBSCRIBERS_FILE)
     contacts = load_json_file(CONTACTS_FILE)
     downloads = load_json_file(DOWNLOADS_FILE)
@@ -842,4 +987,5 @@ if __name__ == '__main__':
     - GET    /api/stats
     """)
     
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    port = int(os.environ.get('PORT', 8000))
+    app.run(debug=not IS_PRODUCTION, host='0.0.0.0', port=port)

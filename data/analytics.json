@@ -7,5 +7,14 @@
     },
     "timestamp": "2026-06-04T21:00:55.284230",
     "user_ip": "127.0.0.1"
+  },
+  {
+    "event_name": "article_saved",
+    "event_data": {
+      "article_id": "deploy-smoke",
+      "status": "Draft"
+    },
+    "timestamp": "2026-06-05T21:44:09.772796",
+    "user_ip": "127.0.0.1"
   }
 ]
