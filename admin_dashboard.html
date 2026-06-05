@@ -16,13 +16,20 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg); color: var(--text); font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
-        .admin-shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        .admin-shell { display: none; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        body.admin-authenticated .admin-shell { display: grid; }
+        .admin-login-screen { align-items: center; background: linear-gradient(135deg, #EAF1F7, #F8FAFC); display: flex; justify-content: center; min-height: 100vh; padding: 24px; }
+        body.admin-authenticated .admin-login-screen { display: none; }
+        .auth-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 18px 38px rgba(23, 32, 51, 0.12); max-width: 430px; padding: 28px; width: 100%; }
+        .auth-card h1 { color: var(--primary); font-size: 1.65rem; margin-bottom: 0.5rem; }
+        .auth-card p { margin-bottom: 1.25rem; }
         .sidebar { background: #172033; color: var(--white); padding: 24px; position: sticky; top: 0; height: 100vh; }
         .sidebar h1 { font-size: 1.35rem; margin-bottom: 0.25rem; }
         .sidebar p { color: #B8C4D2; font-size: 0.9rem; margin-bottom: 1.5rem; }
         .sidebar a, .sidebar button { border-radius: 6px; color: var(--white); display: block; margin-bottom: 8px; padding: 11px 12px; text-align: left; text-decoration: none; width: 100%; }
         .sidebar button { background: transparent; border: 0; cursor: pointer; font: inherit; }
         .sidebar button.active, .sidebar button:hover, .sidebar a:hover { background: var(--primary); }
+        .sidebar button.logout { background: #7F1D1D; margin-top: 14px; }
         .main { padding: 28px; }
         .topbar { align-items: center; display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 24px; }
         .topbar h2 { font-size: 2rem; }
@@ -35,8 +42,10 @@
         form { display: grid; gap: 1rem; }
         label { color: var(--text); font-weight: 700; }
         input, select, textarea { border: 1px solid var(--border); border-radius: 6px; font: inherit; padding: 11px; width: 100%; }
+        input[type="checkbox"] { height: 18px; margin: 0; width: 18px; }
         textarea { min-height: 130px; resize: vertical; }
         .two-col { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+        .checkbox-grid label { align-items: center; background: #F8FAFC; border: 1px solid var(--border); border-radius: 6px; display: flex; gap: 0.65rem; padding: 12px; }
         .btn { background: var(--primary); border: 0; border-radius: 6px; color: var(--white); cursor: pointer; font-weight: 700; padding: 11px 16px; }
         .btn.secondary { background: #64748B; }
         .btn.danger { background: #B91C1C; }
@@ -55,18 +64,34 @@
     </style>
 </head>
 <body>
+    <section class="admin-login-screen">
+        <div class="auth-card">
+            <h1>Qualizenz Admin Login</h1>
+            <p class="muted">Owner password is required to manage homepage display, articles, downloads, inquiries and subscribers.</p>
+            <form id="adminLoginForm">
+                <label>Admin Password</label>
+                <input type="password" name="password" autocomplete="current-password" required>
+                <button class="btn" type="submit">Open Admin Dashboard</button>
+            </form>
+            <div id="adminLoginMessage"></div>
+        </div>
+    </section>
+
     <div class="admin-shell">
         <aside class="sidebar">
             <h1>Qualizenz Admin</h1>
             <p>Owner-only content dashboard</p>
             <button class="tab active" data-section="dashboard">Dashboard</button>
+            <button class="tab" data-section="homepage">Homepage Display</button>
             <button class="tab" data-section="articles">Articles</button>
             <button class="tab" data-section="templates">Templates</button>
             <button class="tab" data-section="resources">Free Resources</button>
             <button class="tab" data-section="inquiries">Inquiries</button>
             <button class="tab" data-section="subscribers">Subscribers</button>
             <button class="tab" data-section="stats">Statistics</button>
+            <button class="tab" data-section="password">Password</button>
             <a href="index.html">View Website</a>
+            <button class="logout" type="button" onclick="logoutAdmin()">Logout</button>
         </aside>
         <main class="main">
             <div class="topbar">
@@ -80,9 +105,64 @@
             <section id="dashboard" class="section active">
                 <div class="grid" id="statsGrid"></div>
                 <div class="notice">No multi-role access is required. This is a simple owner dashboard for content and inquiry management.</div>
+                <div class="notice">Public document downloads can be generated with Qualizenz header, footer, watermark, date and time stamp when files are uploaded through the Flask article upload endpoint.</div>
+                <div class="notice">Default local admin password: <strong>Qualizenz@2026</strong>. Change it from the Password tab before sharing this admin link.</div>
                 <div class="panel">
                     <h3>Recommended Database Tables</h3>
                     <p class="muted">articles, categories, sop_templates, validation_templates, free_resources, consulting_requests, contact_messages, newsletter_subscribers, downloads, website_statistics</p>
+                </div>
+            </section>
+
+            <section id="password" class="section">
+                <div class="panel">
+                    <h3>Update Admin Password</h3>
+                    <p class="muted">Use one owner password only. Avoid simple passwords and update it before publishing admin access anywhere.</p>
+                    <form id="adminPasswordForm">
+                        <label>Current Password</label>
+                        <input type="password" name="current_password" autocomplete="current-password" required>
+                        <div class="two-col">
+                            <div>
+                                <label>New Password</label>
+                                <input type="password" name="new_password" autocomplete="new-password" minlength="8" required>
+                            </div>
+                            <div>
+                                <label>Confirm New Password</label>
+                                <input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required>
+                            </div>
+                        </div>
+                        <button class="btn" type="submit">Update Password</button>
+                    </form>
+                    <div id="adminPasswordMessage"></div>
+                </div>
+            </section>
+
+            <section id="homepage" class="section">
+                <div class="panel">
+                    <h3>Manage Homepage Display</h3>
+                    <p class="muted">Controls what the public homepage displays when running with the Flask backend. On static GitHub Pages, these settings are browser-local until a real hosted backend/database is connected.</p>
+                    <form id="siteSettingsForm">
+                        <label>Header Banner Text</label>
+                        <input name="header_banner_text" placeholder="GMP Articles | SOP Templates | Validation Documents">
+                        <label>Announcement Banner Text</label>
+                        <input name="announcement_text" placeholder="New GMP Audit Readiness Checklist available for download.">
+                        <label>Homepage Hero Title</label>
+                        <textarea name="hero_title"></textarea>
+                        <label>Homepage Intro Text</label>
+                        <textarea name="hero_intro"></textarea>
+                        <label>Footer Disclaimer Text</label>
+                        <textarea name="footer_disclaimer"></textarea>
+                        <label>Owner Note / Internal Display Instruction</label>
+                        <textarea name="homepage_note" placeholder="Optional note for future homepage changes"></textarea>
+                        <div class="two-col checkbox-grid">
+                            <label><input type="checkbox" name="announcement_visible"> Show announcement banner</label>
+                            <label><input type="checkbox" name="headline"> Show hero/headline section</label>
+                            <label><input type="checkbox" name="latestArticles"> Show latest articles</label>
+                            <label><input type="checkbox" name="store"> Show store/documents section</label>
+                            <label><input type="checkbox" name="consulting"> Show consulting section</label>
+                        </div>
+                        <button class="btn" type="submit">Save Homepage Display</button>
+                    </form>
+                    <div id="siteSettingsMessage"></div>
                 </div>
             </section>
 
@@ -112,6 +192,24 @@
                     </form>
                 </div>
                 <div class="panel"><h3>Manage Articles</h3><div id="articleTable"></div></div>
+                <div class="panel">
+                    <h3>Draft Documents and Branded Downloads</h3>
+                    <p class="muted">Create or save an article as draft, upload a PDF/DOCX here, then publish when ready. Downloads open as a Qualizenz-branded PDF with header, footer, watermark, date and time stamp.</p>
+                    <form id="articleDocumentForm">
+                        <div class="two-col">
+                            <div>
+                                <label>Article Draft</label>
+                                <select name="article_id" id="articleDocumentSelect" required></select>
+                            </div>
+                            <div>
+                                <label>Upload PDF or Word File</label>
+                                <input type="file" name="file" accept=".pdf,.docx" required>
+                            </div>
+                        </div>
+                        <button class="btn" type="submit">Upload Branded Download File</button>
+                    </form>
+                    <div id="articleDocumentUploadMessage"></div>
+                </div>
             </section>
 
             <section id="templates" class="section">
@@ -162,6 +260,9 @@
 
     <script>
         const tables = ["articles", "categories", "sop_templates", "validation_templates", "free_resources", "consulting_requests", "contact_messages", "newsletter_subscribers", "downloads", "website_statistics"];
+        const ADMIN_SESSION_KEY = "qualizenz_admin_authenticated";
+        const ADMIN_PASSWORD_HASH_KEY = "qualizenz_admin_password_hash";
+        const DEFAULT_ADMIN_PASSWORD = "Qualizenz@2026";
 
         function read(key, fallback = []) {
             try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
@@ -169,6 +270,138 @@
         function write(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
         function uid(prefix) { return `${prefix}-${Date.now()}`; }
         function rows(key) { return read(key, []); }
+        async function sha256(text) {
+            const data = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            return [...new Uint8Array(hashBuffer)].map(byte => byte.toString(16).padStart(2, "0")).join("");
+        }
+        async function getLocalAdminHash() {
+            const existing = localStorage.getItem(ADMIN_PASSWORD_HASH_KEY);
+            if (existing) return existing;
+            const defaultHash = await sha256(DEFAULT_ADMIN_PASSWORD);
+            localStorage.setItem(ADMIN_PASSWORD_HASH_KEY, defaultHash);
+            return defaultHash;
+        }
+        function setAdminAuthenticated(value) {
+            if (value) {
+                sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+                document.body.classList.add("admin-authenticated");
+            } else {
+                sessionStorage.removeItem(ADMIN_SESSION_KEY);
+                document.body.classList.remove("admin-authenticated");
+            }
+        }
+        function defaultSiteSettings() {
+            return {
+                header_banner_text: "GMP | SOPs | Validation",
+                announcement_text: "New GMP Audit Readiness Checklist available for download.",
+                announcement_visible: true,
+                hero_title: "GMP articles, templates, validation tools and consulting support for pharma professionals.",
+                hero_intro: "Qualizenz helps QA, QC, production, engineering, validation, audit, training and startup teams learn faster, prepare better documents and find practical GMP resources in one clean platform.",
+                footer_disclaimer: "Qualizenz provides educational resources, templates, and consulting support. All templates and guidance must be reviewed, customized, approved, and controlled by qualified personnel before use in any GMP-regulated environment.",
+                homepage_note: "",
+                sections: {
+                    headline: true,
+                    latestArticles: true,
+                    store: true,
+                    consulting: true
+                }
+            };
+        }
+
+        if (sessionStorage.getItem(ADMIN_SESSION_KEY) === "true") {
+            document.body.classList.add("admin-authenticated");
+        }
+
+        document.getElementById("adminLoginForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            const password = event.currentTarget.elements.password.value;
+            const message = document.getElementById("adminLoginMessage");
+            message.innerHTML = '<p class="muted" style="margin-top: 12px;">Checking password...</p>';
+
+            try {
+                const response = await fetch("/api/admin/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "Invalid admin password");
+                setAdminAuthenticated(true);
+                event.currentTarget.reset();
+                message.innerHTML = "";
+                renderAll();
+                return;
+            } catch (error) {
+                if (error.message !== "Failed to fetch") {
+                    message.innerHTML = `<p class="muted" style="margin-top: 12px;">${error.message}</p>`;
+                    return;
+                }
+            }
+
+            const passwordHash = await sha256(password);
+            if (passwordHash === await getLocalAdminHash()) {
+                setAdminAuthenticated(true);
+                event.currentTarget.reset();
+                message.innerHTML = "";
+                renderAll();
+            } else {
+                message.innerHTML = '<p class="muted" style="margin-top: 12px;">Invalid admin password.</p>';
+            }
+        });
+
+        document.getElementById("adminPasswordForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const currentPassword = form.elements.current_password.value;
+            const newPassword = form.elements.new_password.value;
+            const confirmPassword = form.elements.confirm_password.value;
+            const message = document.getElementById("adminPasswordMessage");
+
+            if (newPassword !== confirmPassword) {
+                message.innerHTML = '<p class="muted" style="margin-top: 12px;">New password and confirmation do not match.</p>';
+                return;
+            }
+
+            message.innerHTML = '<p class="muted" style="margin-top: 12px;">Updating password...</p>';
+
+            try {
+                const response = await fetch("/api/admin/change-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "Password update failed");
+                localStorage.setItem(ADMIN_PASSWORD_HASH_KEY, await sha256(newPassword));
+                form.reset();
+                message.innerHTML = '<p class="badge" style="margin-top: 12px;">Admin password updated.</p>';
+                return;
+            } catch (error) {
+                if (error.message !== "Failed to fetch") {
+                    message.innerHTML = `<p class="muted" style="margin-top: 12px;">${error.message}</p>`;
+                    return;
+                }
+            }
+
+            if (await sha256(currentPassword) !== await getLocalAdminHash()) {
+                message.innerHTML = '<p class="muted" style="margin-top: 12px;">Current password is incorrect.</p>';
+                return;
+            }
+
+            localStorage.setItem(ADMIN_PASSWORD_HASH_KEY, await sha256(newPassword));
+            form.reset();
+            message.innerHTML = '<p class="badge" style="margin-top: 12px;">Admin password updated for this browser.</p>';
+        });
+
+        async function logoutAdmin() {
+            try {
+                await fetch("/api/admin/logout", { method: "POST" });
+            } catch (error) {
+                // Static preview mode logs out locally.
+            }
+            setAdminAuthenticated(false);
+        }
 
         document.querySelectorAll(".tab").forEach(button => {
             button.addEventListener("click", () => {
@@ -177,9 +410,71 @@
                 button.classList.add("active");
                 document.getElementById(button.dataset.section).classList.add("active");
                 document.getElementById("pageTitle").textContent = button.textContent;
+                if (button.dataset.section === "homepage") loadSiteSettings();
                 renderAll();
             });
         });
+
+        document.getElementById("siteSettingsForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const settings = {
+                header_banner_text: form.elements.header_banner_text.value.trim(),
+                announcement_text: form.elements.announcement_text.value.trim(),
+                announcement_visible: form.elements.announcement_visible.checked,
+                hero_title: form.elements.hero_title.value.trim(),
+                hero_intro: form.elements.hero_intro.value.trim(),
+                footer_disclaimer: form.elements.footer_disclaimer.value.trim(),
+                homepage_note: form.elements.homepage_note.value.trim(),
+                sections: {
+                    headline: form.elements.headline.checked,
+                    latestArticles: form.elements.latestArticles.checked,
+                    store: form.elements.store.checked,
+                    consulting: form.elements.consulting.checked
+                }
+            };
+
+            write("site_settings", settings);
+            const message = document.getElementById("siteSettingsMessage");
+            message.innerHTML = '<p class="muted" style="margin-top: 12px;">Saving homepage display...</p>';
+
+            try {
+                const response = await fetch("/api/admin/site-settings", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(settings)
+                });
+                if (!response.ok) throw new Error("Backend save failed");
+                message.innerHTML = '<p class="badge" style="margin-top: 12px;">Homepage display saved.</p>';
+            } catch (error) {
+                message.innerHTML = '<p class="muted" style="margin-top: 12px;">Saved in this browser. Start the Flask backend to save globally.</p>';
+            }
+        });
+
+        async function loadSiteSettings() {
+            let settings = { ...defaultSiteSettings(), ...read("site_settings", {}) };
+            try {
+                const response = await fetch("/api/site-settings", { cache: "no-store" });
+                if (response.ok) settings = { ...settings, ...await response.json() };
+            } catch (error) {
+                // Static GitHub Pages mode uses browser-local settings until backend hosting is connected.
+            }
+
+            settings.sections = { ...defaultSiteSettings().sections, ...(settings.sections || {}) };
+            write("site_settings", settings);
+
+            const form = document.getElementById("siteSettingsForm");
+            form.elements.header_banner_text.value = settings.header_banner_text || "";
+            form.elements.announcement_text.value = settings.announcement_text || "";
+            form.elements.announcement_visible.checked = settings.announcement_visible !== false;
+            form.elements.hero_title.value = settings.hero_title || "";
+            form.elements.hero_intro.value = settings.hero_intro || "";
+            form.elements.footer_disclaimer.value = settings.footer_disclaimer || "";
+            form.elements.homepage_note.value = settings.homepage_note || "";
+            Object.entries(settings.sections).forEach(([key, value]) => {
+                if (form.elements[key]) form.elements[key].checked = Boolean(value);
+            });
+        }
 
         document.getElementById("articleForm").addEventListener("submit", event => {
             event.preventDefault();
@@ -191,9 +486,48 @@
             const articleRows = rows("articles").filter(row => row.id !== data.id);
             articleRows.unshift(data);
             write("articles", articleRows);
+            saveArticleToBackend(data);
             event.currentTarget.reset();
             renderAll();
         });
+
+        document.getElementById("articleDocumentForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const articleId = form.elements.article_id.value;
+            const file = form.elements.file.files[0];
+            const message = document.getElementById("articleDocumentUploadMessage");
+            if (!articleId || !file) return;
+            message.innerHTML = '<p class="muted" style="margin-top: 12px;">Uploading document...</p>';
+
+            const payload = new FormData();
+            payload.append("file", file);
+
+            try {
+                const response = await fetch(`/api/articles/${encodeURIComponent(articleId)}/upload-file`, {
+                    method: "POST",
+                    body: payload
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "Upload failed");
+                message.innerHTML = `<p class="badge" style="margin-top: 12px;">Uploaded. Download URL: ${result.file.public_download_url}</p>`;
+                form.reset();
+            } catch (error) {
+                message.innerHTML = `<p class="muted" style="margin-top: 12px;">${error.message}. Save the article while Flask is running, then upload the document again.</p>`;
+            }
+        });
+
+        async function saveArticleToBackend(data) {
+            try {
+                await fetch("/api/articles/add", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+            } catch (error) {
+                // Static GitHub Pages mode keeps article records in browser storage.
+            }
+        }
 
         document.getElementById("templateForm").addEventListener("submit", event => {
             event.preventDefault();
@@ -259,12 +593,23 @@
             document.getElementById("statsGrid").innerHTML = stats.slice(0, 8).map(statCard).join("");
             document.getElementById("statsDetailGrid").innerHTML = stats.map(statCard).join("");
             table("articleTable", data.articles, ["title", "category", "author", "status", "publishDate"], "articles", true);
+            renderArticleDocumentOptions(data.articles);
             table("templateTable", [...data.sop_templates, ...data.validation_templates], ["title", "category", "access", "price", "fileType", "fileName"]);
             table("resourceTable", data.free_resources, ["title", "category", "fileName", "createdAt"], "free_resources");
             table("consultingTable", data.consulting_requests, ["name", "email", "service", "country", "company", "documentName"]);
             table("contactTable", data.contact_messages, ["name", "email", "topic", "message"]);
             table("subscriberTable", data.newsletter_subscribers, ["email", "source", "createdAt"]);
             table("downloadTable", data.downloads, ["resourceId", "page", "createdAt"]);
+        }
+
+        function renderArticleDocumentOptions(articles) {
+            const select = document.getElementById("articleDocumentSelect");
+            if (!select) return;
+            if (!articles.length) {
+                select.innerHTML = '<option value="">Create an article draft first</option>';
+                return;
+            }
+            select.innerHTML = articles.map(article => `<option value="${article.id}">${format(article.title)} (${article.status || "Draft"})</option>`).join("");
         }
 
         function statCard([label, value]) {

@@ -29,12 +29,56 @@ function saveRecord(key, record) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    applySiteSettings();
     initSearch();
+    initCatalogSearch();
     initNewsletterForm();
     initContactForm();
     initConsultingForm();
     trackPageView();
 });
+
+async function applySiteSettings() {
+    let settings = readStore("site_settings", null);
+
+    try {
+        const response = await fetch("/api/site-settings", { cache: "no-store" });
+        if (response.ok) {
+            settings = await response.json();
+            writeStore("site_settings", settings);
+        }
+    } catch {
+        // Static hosting fallback uses browser-stored settings if available.
+    }
+
+    if (!settings) return;
+
+    setText("headerBannerText", settings.header_banner_text);
+    setText("announcementText", settings.announcement_text);
+    setText("homeHeroTitle", settings.hero_title);
+    setText("homeHeroIntro", settings.hero_intro);
+    setText("footerDisclaimerText", settings.footer_disclaimer);
+
+    const announcementBar = document.getElementById("announcementBar");
+    if (announcementBar && settings.announcement_visible === false) {
+        announcementBar.style.display = "none";
+    }
+
+    if (settings.sections) {
+        Object.entries(settings.sections).forEach(([key, visible]) => {
+            document.querySelectorAll(`[data-section-key="${key}"]`).forEach(section => {
+                section.style.display = visible ? "" : "none";
+            });
+        });
+    }
+}
+
+function setText(id, value) {
+    const element = document.getElementById(id);
+    if (element && value) {
+        element.textContent = value;
+    }
+}
 
 function initSearch() {
     const search = document.getElementById("siteSearch");
@@ -42,11 +86,26 @@ function initSearch() {
 
     search.addEventListener("input", function() {
         const query = this.value.trim().toLowerCase();
-        const cards = document.querySelectorAll(".searchable-content [data-search]");
+        const cards = document.querySelectorAll(".searchable-content [data-search], .searchable-item[data-search]");
 
         cards.forEach(card => {
             const haystack = `${card.dataset.search || ""} ${card.innerText}`.toLowerCase();
             card.style.display = !query || haystack.includes(query) ? "" : "none";
+        });
+    });
+}
+
+function initCatalogSearch() {
+    document.querySelectorAll(".catalog-search").forEach(input => {
+        input.addEventListener("input", function() {
+            const group = this.dataset.target;
+            const query = this.value.trim().toLowerCase();
+            const cards = document.querySelectorAll(`[data-group="${group}"]`);
+
+            cards.forEach(card => {
+                const haystack = `${card.dataset.search || ""} ${card.innerText}`.toLowerCase();
+                card.style.display = !query || haystack.includes(query) ? "" : "none";
+            });
         });
     });
 }
@@ -203,9 +262,9 @@ function messageBox(text, type) {
 }
 
 function toggleMobileMenu() {
-    const navLinks = document.querySelector(".nav-links");
-    if (navLinks) {
-        navLinks.classList.toggle("active");
+    const categoryNav = document.querySelector(".category-nav");
+    if (categoryNav) {
+        categoryNav.classList.toggle("active");
     }
 }
 

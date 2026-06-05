@@ -1,0 +1,16 @@
+{
+  "header_banner_text": "GMP | SOPs | Validation",
+  "announcement_text": "New GMP Audit Readiness Checklist available for download.",
+  "announcement_visible": true,
+  "hero_title": "GMP articles, templates, validation tools and consulting support for pharma professionals.",
+  "hero_intro": "Qualizenz helps QA, QC, production, engineering, validation, audit, training and startup teams learn faster, prepare better documents and find practical GMP resources in one clean platform.",
+  "sections": {
+    "headline": true,
+    "latestArticles": true,
+    "store": true,
+    "consulting": true
+  },
+  "homepage_note": "",
+  "footer_disclaimer": "Qualizenz provides educational resources, templates, and consulting support. All templates and guidance must be reviewed, customized, approved, and controlled by qualified personnel before use in any GMP-regulated environment.",
+  "updated_at": "2026-06-04T21:10:51.802065"
+}

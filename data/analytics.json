@@ -1,0 +1,11 @@
+[
+  {
+    "event_name": "article_saved",
+    "event_data": {
+      "article_id": "test-draft-admin",
+      "status": "Draft"
+    },
+    "timestamp": "2026-06-04T21:00:55.284230",
+    "user_ip": "127.0.0.1"
+  }
+]
